@@ -8,7 +8,7 @@ public class AppStyles
     public static ResourceDictionary Default => new ResourceDictionary {
 
         // "ActivityIndicator"
-    
+
         new Style<ActivityIndicator>(e => e
             .Color(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))),
     

@@ -15,7 +15,7 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
         )
         .Content(
             new Grid()
-            .RowDefinitions(e => e.Star(3).Star(4).Star(3))
+            .RowDefinitions(e => e.Star(3).Star(2.5).Star(2).Star(2.5))
             .RowSpacing(15)
             .Margin(20, 15)
             .Children(
@@ -30,12 +30,13 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                         new Label()
                         .Text("My")
                         .TextColor(DeepSkyBlue)
-                        .FontSize(40),
+                        .FontSize(44)
+                        .FontAttributes(Bold),
 
                         new Label()
                         .Text("FINANCE")
                         .TextColor(Black)
-                        .FontSize(40)
+                        .FontSize(44)
                         .FontAttributes(Bold)
                     ),
 
@@ -43,7 +44,8 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                     .Text("Welcome back")
                     .TextColor(Black)
                     .FontSize(25)
-                    .FontAttributes(Bold),
+                    .FontAttributes(Bold)
+                    .Margin(0,30,0,0),
 
                     new Label()
                     .Text("Please enter your details")
@@ -53,21 +55,119 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                 ),
 
                 new VerticalStackLayout()
-                .Spacing(10)
+                .Spacing(15)
                 .Row(1)
                 .Children( 
-                    new TextField()
-                    .Title("Email")
-                    .TitleColor(DeepSkyBlue)
+                    new TextEdit()
+                    .LabelText("Email")
+                    .Text(e => e.Path("Login.Username"))
+                    .LabelColor(DeepSkyBlue)
                     .BorderColor(DeepSkyBlue)
-                    .TextColor(Black),
+                    .FocusedBorderColor(DeepSkyBlue)
+                    .FocusedLabelColor(DeepSkyBlue)
+                    .CursorColor(DeepSkyBlue)
+                    .LabelFontSize(14),
 
-                    new TextField()
-                    .Title("Password")
-                    .TitleColor(DeepSkyBlue)
+                    new PasswordEdit()
+                    .LabelText("Password")
+                    .Text(e => e.Path("Login.Password"))
+                    .LabelColor(DeepSkyBlue)
                     .BorderColor(DeepSkyBlue)
+                    .FocusedBorderColor(DeepSkyBlue)
+                    .FocusedLabelColor(DeepSkyBlue)
+                    .CursorColor(DeepSkyBlue)
+                    .LabelFontSize(14),
+
+                    new Grid()
+                    .ColumnDefinitions(e => e.Star().Star())
+                    .FillHorizontal()
+                    .Children(
+                        new CheckEdit()
+                        .Label("Remember for 30 days")
+                        .LabelFontSize(12)
+                        .CheckBoxColor(DeepSkyBlue)
+                        .CheckedCheckBoxColor(DeepSkyBlue)
+                        .LabelVerticalAlignment(TextAlignment.Center)
+                        .AlignStart()
+                        .IsChecked(e => e.Path("Login.IsRememberMe")),
+
+                         new Label()
+                         .Text("Forget password")
+                         .TextColor(DeepSkyBlue)
+                         .TextDecorations(Underline)
+                         .TextCenterVertical()
+                         .Column(1)
+                         .AlignEnd()
+                    )
+                ),
+
+                new VerticalStackLayout()
+                .Row(2)
+                .Spacing(20)
+                .Children(
+                     new Button()
+                    .Text("Sign in")
+                    .BackgroundColor(DeepSkyBlue)
                     .TextColor(Black)
-                    .IsPassword(true)
+                    .FontSize(15)
+                    .Command(BindingContext.LoginCommand),
+
+                     new HorizontalStackLayout()
+                     .CenterHorizontal()
+                     .Spacing(5)
+                     .Children(
+                         new Label()
+                        .Text("Don't have an account? ")
+                        .TextColor(Black)
+                        .FontAttributes(Italic)
+                        .FontSize(16),
+
+                         new Label()
+                         .Text("Sign up")
+                         .TextColor(DeepSkyBlue)
+                         .TextDecorations(Underline)
+                     )
+                ),
+
+                new HorizontalStackLayout()
+                .Row(3)
+                .Center()
+                .Spacing(5)
+                .Children(
+                    new Label()
+                    .Text("By ")
+                    .TextColor(Black)
+                    .FontAttributes(Italic)
+                    .FontSize(16),
+
+                    new Label()
+                    .Text("FmgLib.MauiMarkup")
+                    .TextColor(DeepSkyBlue)
+                    .FontAttributes(Bold)
+                    .FontSize(18)
+                ),
+
+                new DXPopup()
+                .AllowScrim(false)
+                .AnimationDuration(new TimeSpan(0,0,0,2))
+                .VerticalAlignment(PopupVerticalAlignment.Center)
+                .HorizontalAlignment(PopupHorizontalAlignment.Center)
+                .RowSpan(4)
+                .IsOpen(e => e.Path("IsPopupShow"))
+                .Assign(out var popup)
+                .Content(
+                    new VerticalStackLayout()
+                    .Children(
+                        new Label()
+                        .Text("Kullanıcı Adı veya Şifre Hatalı!!!"),
+
+                        new Button()
+                        .Text("Close")
+                        .OnClicked((sender, args) =>
+                        {
+                            popup.IsOpen = false;
+                        })
+                    )
                 )
             )
         );

@@ -1,6 +1,6 @@
 ﻿namespace MyFinance;
 
-public partial class App : Application
+public partial class App : MC.Application
 {
     public App(IServiceProvider services)
     {

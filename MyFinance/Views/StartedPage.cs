@@ -24,12 +24,13 @@ public partial class StartedPage() : BasePage("Get Started")
                     new Label()
                     .Text("My")
                     .TextColor(DeepSkyBlue)
-                    .FontSize(40),
+                    .FontSize(44)
+                    .FontAttributes(Bold),
 
                     new Label()
                     .Text("FINANCE")
                     .TextColor(Black)
-                    .FontSize(40)
+                    .FontSize(44)
                     .FontAttributes(Bold)
                 ),
 

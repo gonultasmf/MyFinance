@@ -3,8 +3,8 @@
 namespace MyFinance;
 
 
-[MauiMarkup(typeof(StatusBarBehavior), typeof(ShellContent), typeof(TextEdit), typeof(TextEditBase), typeof(EditBase))]
-[MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup))]
+[MauiMarkup(typeof(StatusBarBehavior), typeof(TextEdit), typeof(TextEditBase), typeof(EditBase), typeof(ComboBoxEdit))]
+[MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

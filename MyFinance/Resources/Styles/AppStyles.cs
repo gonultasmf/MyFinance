@@ -7,10 +7,49 @@ public class AppStyles
 {
     public static ResourceDictionary Default => new ResourceDictionary {
 
+        // "TextEdit"
+
+        new Style<TextEdit>(e => e
+            .LabelColor(DeepSkyBlue)
+            .BorderColor(DeepSkyBlue)
+            .FocusedBorderColor(DeepSkyBlue)
+            .FocusedLabelColor(DeepSkyBlue)
+            .CursorColor(DeepSkyBlue)
+            .LabelFontSize(14)),
+
+        // "PasswordEdit"
+
+        new Style<PasswordEdit>(e => e
+            .LabelColor(DeepSkyBlue)
+            .BorderColor(DeepSkyBlue)
+            .FocusedBorderColor(DeepSkyBlue)
+            .FocusedLabelColor(DeepSkyBlue)
+            .CursorColor(DeepSkyBlue)
+            .LabelFontSize(14)),
+
+        // "CheckEdit"
+
+        new Style<CheckEdit>(e => e
+            .LabelFontSize(12)
+            .CheckBoxColor(DeepSkyBlue)
+            .CheckedCheckBoxColor(DeepSkyBlue)
+            .LabelVerticalAlignment(TextAlignment.Center)),
+
+        // "ComboBoxEdit"
+
+        new Style<ComboBoxEdit>(e => e
+            .LabelColor(DeepSkyBlue)
+            .BorderColor(DeepSkyBlue)
+            .FocusedBorderColor(DeepSkyBlue)
+            .FocusedLabelColor(DeepSkyBlue)
+            .CursorColor(DeepSkyBlue)
+            .LabelFontSize(14)),
+
         // "ActivityIndicator"
 
         new Style<ActivityIndicator>(e => e
-            .Color(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))),
+            .Color(DeepSkyBlue)
+            /*.Color(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))*/),
     
         // "IndicatorView"
 
@@ -34,8 +73,8 @@ public class AppStyles
         // "Button"
 
         new Style<Button>(e => e
-            .TextColor(e => e.OnLight(Colors.White).OnDark(AppColors.Primary))
-            .BackgroundColor(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))
+            .TextColor(Black)
+            .BackgroundColor(DeepSkyBlue)
             .FontFamily("OpenSansRegular")
             .FontSize(14)
             .CornerRadius(8)

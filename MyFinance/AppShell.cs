@@ -15,7 +15,12 @@ public partial class AppShell : Shell
             new ShellContent()
             .Title("")
             .ContentTemplate(() => serviceProvider.GetService<LoginPage>())
-            .Route("LoginPage")
+            .Route("LoginPage"),
+
+            new ShellContent()
+            .Title("")
+            .ContentTemplate(() => serviceProvider.GetService<MainPage>())
+            .Route("MainPage")
         );
     }
 }

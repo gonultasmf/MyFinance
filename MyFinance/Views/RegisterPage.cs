@@ -2,7 +2,7 @@
 
 namespace MyFinance.Views;
 
-public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPageViewModel>(viewModel, "Login Page")
+public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<RegisterPageViewModel>(viewModel, "Register Page")
 {
     public override void Build()
     {
@@ -15,7 +15,7 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
         )
         .Content(
             new Grid()
-            .RowDefinitions(e => e.Star(3).Star(2.5).Star(2).Star(2.5))
+            .RowDefinitions(e => e.Star(2.5).Star(4).Star(2).Star(1.5))
             .RowSpacing(15)
             .Margin(20, 15)
             .Children(
@@ -41,14 +41,14 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                     ),
 
                     new Label()
-                    .Text("Welcome back")
+                    .Text("Welcome to our app")
                     .TextColor(Black)
                     .FontSize(25)
                     .FontAttributes(Bold)
-                    .Margin(0,30,0,0),
+                    .Margin(0, 30, 0, 0),
 
                     new Label()
-                    .Text("Please enter your details")
+                    .Text("Create a free account")
                     .TextColor(Black)
                     .FontSize(15)
                     .FontAttributes(Italic)
@@ -57,14 +57,44 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                 new VerticalStackLayout()
                 .Spacing(15)
                 .Row(1)
-                .Children( 
+                .Children(
+                    new TextEdit()
+                    .LabelText("First Name")
+                    .Text(e => e.Path("UserModel.FirstName")),
+
+                    new TextEdit()
+                    .LabelText("Last Name")
+                    .Text(e => e.Path("UserModel.LastName")),
+
                     new TextEdit()
                     .LabelText("Email")
-                    .Text(e => e.Path("Login.Username")),
+                    .Text(e => e.Path("UserModel.Username")),
 
                     new PasswordEdit()
                     .LabelText("Password")
-                    .Text(e => e.Path("Login.Password")),
+                    .Text(e => e.Path("UserModel.Password")),
+
+                    new PasswordEdit()
+                    .LabelText("Password (Repeat)")
+                    .Text(e => e.Path("UserModel.Password")),
+
+                    new TextEdit()
+                    .LabelText("Phone")
+                    .Keyboard(Keyboard.Telephone)
+                    .Text(e => e.Path("UserModel.PhoneNumber")),
+
+                    new TextEdit()
+                    .LabelText("Age")
+                    .Keyboard(Keyboard.Numeric)
+                    .Text(e => e.Path("UserModel.Age")),
+
+                    new ComboBoxEdit()
+                    .SelectedIndex(e => e.Path("UserModel.Gender"))
+                    .ItemsSource(new List<string>
+                    {
+                        "Male",
+                        "Female"
+                    }),
 
                     new Grid()
                     .ColumnDefinitions(e => e.Star().Star())
@@ -73,7 +103,7 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                         new CheckEdit()
                         .Label("Remember for 30 days")
                         .AlignStart()
-                        .IsChecked(e => e.Path("Login.IsRememberMe")),
+                        .IsChecked(e => e.Path("UserModel.IsRememberMe")),
 
                          new Label()
                          .Text("Forget password")
@@ -90,26 +120,30 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                 .Spacing(20)
                 .Children(
                      new Button()
-                    .Text("Sign in")
+                    .Text("Sign up")
                     .BackgroundColor(DeepSkyBlue)
                     .TextColor(Black)
                     .FontSize(15)
-                    .Command(BindingContext.LoginCommand),
+                    .Command(BindingContext.RegisterCommand),
 
                      new HorizontalStackLayout()
                      .CenterHorizontal()
                      .Spacing(5)
                      .Children(
                          new Label()
-                        .Text("Don't have an account? ")
+                        .Text("Already have an account? ")
                         .TextColor(Black)
                         .FontAttributes(Italic)
                         .FontSize(16),
 
                          new Label()
-                         .Text("Sign up")
+                         .Text("Sign in")
                          .TextColor(DeepSkyBlue)
                          .TextDecorations(Underline)
+                         .GestureRecognizers(
+                             new TapGestureRecognizer()
+                             .Command(BindingContext.GoToLoginCommand)
+                         )
                      )
                 ),
 

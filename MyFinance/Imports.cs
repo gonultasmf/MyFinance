@@ -20,6 +20,7 @@ global using MyFinance.Utilities;
 global using MyFinance.Context;
 global using MyFinance.Repository;
 global using MyFinance.DTOs;
+global using MyFinance.Controls;
 
 global using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,7 @@ global using static Microsoft.Maui.Controls.FontAttributes;
 global using static Microsoft.Maui.Controls.LayoutAlignment;
 global using static Microsoft.Maui.Graphics.Colors;
 global using static Microsoft.Maui.TextDecorations;
+global using static Microsoft.Maui.LineBreakMode;
 
 global using MC = Microsoft.Maui.Controls;
 global using DC = DevExpress.Maui.Controls;

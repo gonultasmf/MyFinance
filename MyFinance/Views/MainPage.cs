@@ -1,82 +1,140 @@
-﻿using System.Reflection;
+﻿using DXImage = DevExpress.Maui.Core.DXImage;
 
-namespace MyFinance.Views
+namespace MyFinance.Views;
+
+public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageViewModel>(viewModel, "Main Page")
 {
-    public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageViewModel>(viewModel, "Main Page")
+    public override void Build()
     {
-        public override void Build()
-        {
-            var version = typeof(MauiApp).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        this
+        .Content(
+            new VerticalStackLayout()
+            .Spacing(20)
+            .Margin(20,20,20,10)
+            .Children(
+                new HorizontalStackLayout()
+                .AlignStart()
+                .Spacing(5)
+                .Children(
+                    new DXImage()
+                    .Source("profile.png")
+                    .SizeRequest(60,60),
 
-            this
+                    new VerticalStackLayout()
+                    .CenterVertical()
+                    .Children(
+                        new Label()
+                        .FontAttributes(Bold)
+                        .TextColor(Black)
+                        .Text("Lilliie-May Mcdonelli"),
+
+                        new Label()
+                        .TextColor(Gray)
+                        .Text("hello@amail.com")
+                    )
+                ),
+
+                new VerticalStackLayout()
+                .Spacing(-3)
+                .Children(
+                    new Label()
+                    .FontAttributes(Bold)
+                    .TextColor(Black)
+                    .Text("Total balance"),
+
+                    new Grid()
+                    .RowDefinitions(e => e.Star().Star())
+                    .ColumnDefinitions(e => e.Star(7).Star(3))
+                    .Spacing(10,3)
+                    .Children(
+                        new Label()
+                        .Text("25,291.50 ₺")
+                        .FontAttributes(Bold)
+                        .FontSize(40)
+                        .RowSpan(2),
+
+                        new Label()
+                        .Text("+130.65%")
+                        .TextColor(Green)
+                        .FontSize(12)
+                        .Column(1)
+                        .AlignBottomEnd(),
+
+                        new Label()
+                        .Text("+2,367.72₺")
+                        .TextColor(DarkGray)
+                        .FontSize(12)
+                        .Column(1)
+                        .Row(1)
+                        .AlignTopEnd()
+                    )
+                ),
+
+                new Grid()
+                .ColumnDefinitions(e => e.Star().Star())
+                .ColumnSpacing(10)
+                .Children(
+                    new DXButton()
+                    .HeightRequest(100)
+                    .Content("Buy")
+                    .TextColor(White)
+                    .FontSize(16)
+                    .ButtonType(Accent)
+                    .Icon("up_arrow.png")
+                    .IconColor(Red)
+                    .CornerRadius(new CornerRadius(20))
+                    .BackgroundColor(Black),
+
+                    new DXButton()
+                    .HeightRequest(100)
+                    .Content("Sell")
+                    .TextColor(Black)
+                    .FontSize(16)
+                    .ButtonType(Accent)
+                    .Icon("down_arrow.png")
+                    .IconColor(Green)
+                    .CornerRadius(new CornerRadius(20))
+                    .BackgroundColor(DeepSkyBlue)
+                    .BorderColor(Black)
+                    .BorderThickness(1)
+                    .Column(1)
+                ),
+
+                new Frame()
+                .CornerRadius(20)
+                .BorderColor(Black)
+                .BackgroundColor(Transparent)
                 .Content(
-                    new ScrollView()
-                    .Content(
-                        new Grid()
-                        .RowDefinitions(e => e.Star(90).Star(10))
-                        .Children(
-                            new StackLayout()
-                            .Spacing(25)
-                            .Children(
-                                new Label()
-                                .Text("Hello, World!")
-                                .FontSize(32)
-                                .CenterHorizontal()
-                                .SemanticHeadingLevel(SemanticHeadingLevel.Level1),
+                    new VerticalStackLayout()
+                    .FillBothDirections()
+                    .Children(
+                        new Label()
+                        .FontAttributes(Bold)
+                        .TextColor(Black)
+                        .Text("Watchlist"),
 
-                                new Label()
-                                .Text("Welcome to .NET Multi-platform App UI")
-                                .FontSize(18)
-                                .CenterHorizontal()
-                                .SemanticDescription("Welcome to dot net Multi platform App U I")
-                                .SemanticHeadingLevel(SemanticHeadingLevel.Level1),
+                        new Border()
+                        .StrokeThickness(1),
 
-                                new Label()
-                                .Text("Current count: 0")
-                                .FontSize(18)
-                                .FontAttributes(Bold)
-                                .CenterHorizontal()
-                                .Assign(out CounterLabel),
-
-                                new Button()
-                                .Text("Click me")
-                                .CenterHorizontal()
-                                .InvokeOnElement(btn => btn.Clicked += OnCounterClicked)
-                                .SemanticHint("Counts the number of times you click"),
-
-                                new Image()
-                                .Source("dotnet_bot.png")
-                                .WidthRequest(250)
-                                .HeightRequest(310)
-                                .CenterHorizontal()
-                                .SemanticDescription("Cute dot net bot waving hi to you!")
-                            ),
-
+                        new DXCollectionView()
+                        .ItemsSource(e => e.Path(""))
+                        .IsRefreshing(e => e.Path("").BindingMode(TwoWay))
+                        .ItemTemplate(() =>
                             new Grid()
-                            .BackgroundColor(AppColors.Primary)
-                            .Row(1)
+                            .RowDefinitions(e => e.Star().Star())
+                            .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
+                            .Margin(5)
                             .Children(
-                                new Label()
-                                .Text($"dotNet version: {version}")
-                                .TextColor(White)
-                                .Center()
+                                new DXImage()
+                                .Source(e => e.Path(""))
+                                .SizeRequest(40,40)
+                                .RowSpan(2)
+
                             )
                         )
                     )
-
-                );
-        }
-
-        private int _count = 0;
-        private Label CounterLabel;
-
-
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            _count++;
-            CounterLabel.Text = $"Current count: {_count}";
-
-            SemanticScreenReader.Announce(CounterLabel.Text);
-        }
+                )
+            )
+        );
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace MyFinance.ViewModels
+﻿namespace MyFinance.ViewModels;
+
+public partial class MainPageViewModel : BaseViewModel
 {
-    public partial class MainPageViewModel : BaseViewModel
-    {
-    }
 }

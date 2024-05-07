@@ -345,6 +345,7 @@ public class AppStyles
 
         new Style<Shell>(applyToDerivedTypes: true, e => e
             .ShellNavBarHasShadow(false)
+            .ShellNavBarIsVisible(false)
             .ShellBackgroundColor(e => e.OnLight(AppColors.Primary).OnDark(AppColors.Gray950))
             .ShellForegroundColor(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))
             .ShellTitleColor(e => e.OnLight(Colors.White).OnDark(Colors.White))

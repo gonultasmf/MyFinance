@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using DXImage = DevExpress.Maui.Core.DXImage;
 
 namespace MyFinance;
 
 
 [MauiMarkup(typeof(StatusBarBehavior), typeof(TextEdit), typeof(TextEditBase), typeof(EditBase), typeof(ComboBoxEdit))]
 [MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
+[MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
+[MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

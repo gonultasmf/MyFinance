@@ -29,13 +29,16 @@ global using DevExpress.Maui.Controls;
 global using DevExpress.Maui.Editors;
 global using DevExpress.Maui.DataForm;
 global using DevExpress.Maui.CollectionView;
+global using DevExpress.Maui.Core;
 global using DevExpress.Maui;
+global using static Microsoft.Maui.Controls.BindingMode;
 global using static Microsoft.Maui.Controls.FontAttributes;
 global using static Microsoft.Maui.Controls.LayoutAlignment;
 global using static Microsoft.Maui.Graphics.Colors;
 global using static Microsoft.Maui.TextDecorations;
 global using static Microsoft.Maui.LineBreakMode;
 global using static Microsoft.Maui.Keyboard;
+global using static DevExpress.Maui.Core.DXButtonType;
 
 global using MC = Microsoft.Maui.Controls;
 global using DC = DevExpress.Maui.Controls;

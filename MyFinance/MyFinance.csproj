@@ -48,7 +48,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\down_arrow.png" />
 	  <None Remove="Resources\Images\getstarted.png" />
+	  <None Remove="Resources\Images\loss.png" />
+	  <None Remove="Resources\Images\profits.png" />
+	  <None Remove="Resources\Images\up_arrow.png" />
 	</ItemGroup>
 
 	<ItemGroup>

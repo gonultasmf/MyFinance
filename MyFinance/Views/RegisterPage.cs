@@ -71,7 +71,7 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
 
                     new TextEdit()
                     .LabelText("Email")
-                    .Text(e => e.Path("UserModel.Username")),
+                    .Text(e => e.Path("UserModel.Email")),
 
                     new PasswordEdit()
                     .LabelText("Password")

@@ -30,7 +30,15 @@ public partial class LoginPageViewModel(IUserRepo repo) : BaseViewModel
                 await SecureStorage.SetAsync("USERAUTH", auth);
             }
 
+            Login = new();
             await AppShell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
+    }); 
+    
+    public ICommand GoToRegisterCommand => new Command(async () =>
+    {
+        IsPopupShow = false;
+        Login = new();
+        await AppShell.Current.GoToAsync($"//{nameof(RegisterPage)}");
     });
 }

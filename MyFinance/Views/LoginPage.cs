@@ -110,6 +110,10 @@ public partial class LoginPage(LoginPageViewModel viewModel) : BasePage<LoginPag
                          .Text("Sign up")
                          .TextColor(DeepSkyBlue)
                          .TextDecorations(Underline)
+                         .GestureRecognizers(
+                             new TapGestureRecognizer()
+                             .Command(BindingContext.GoToRegisterCommand)
+                         )
                      )
                 ),
 

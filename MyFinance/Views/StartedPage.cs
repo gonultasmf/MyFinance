@@ -4,7 +4,13 @@ public partial class StartedPage() : BasePage("Get Started")
 {
     public override void Build()
     {
-        bool skipStartedPage = true;
+        bool skipStartedPage;
+        var isStarted = SecureStorage.GetAsync("IsStarted").GetAwaiter().GetResult();
+        if (!string.IsNullOrEmpty(isStarted) && bool.TryParse(isStarted, out skipStartedPage) && !skipStartedPage)
+            skipStartedPage = true;
+        else
+            skipStartedPage = false;
+
         this
         .ShellNavBarIsVisible(false)
         .Behaviors(
@@ -13,8 +19,7 @@ public partial class StartedPage() : BasePage("Get Started")
         )
         .OnLoaded(async (sender, e) =>
         {
-            var isStarted = await SecureStorage.GetAsync("IsStarted");
-            if (!string.IsNullOrEmpty(isStarted) && bool.TryParse(isStarted, out skipStartedPage) && skipStartedPage)
+            if (skipStartedPage)
             {
                 if (await CheckLogin())
                     await AppShell.Current.GoToAsync("//MainPage", true);
@@ -87,7 +92,7 @@ public partial class StartedPage() : BasePage("Get Started")
                 .Row(3)
                 .OnClicked(async (sender,arg) =>
                 {
-                    await SecureStorage.SetAsync("IsStarted", "true");
+                    await SecureStorage.SetAsync("IsStarted", "false");
                     await AppShell.Current.GoToAsync("//LoginPage", true);
                 })
             )

@@ -28,6 +28,7 @@ public static class MauiProgram
             .AddDbContext<MyFinanceContext>()
             .AddScopedWithShellRoute<MainPage, MainPageViewModel>($"//{nameof(MainPage)}")
             .AddScopedWithShellRoute<LoginPage, LoginPageViewModel>($"//{nameof(LoginPage)}")
+            .AddScopedWithShellRoute<RegisterPage, RegisterPageViewModel>($"//{nameof(RegisterPage)}")
             .AddScoped<StartedPage>()
             .AddScoped<IUserRepo, UserRepo>();
 

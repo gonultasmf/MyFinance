@@ -15,47 +15,50 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
         )
         .Content(
             new Grid()
-            .RowDefinitions(e => e.Star(2.5).Star(4).Star(2).Star(1.5))
-            .RowSpacing(15)
-            .Margin(20, 15)
+            .RowDefinitions(e => e.Star(1.2).Star(7.4).Star(1).Star(0.4))
+            .Margin(20,10)
+            .RowSpacing(5)
             .Children(
                 (IView)new VerticalStackLayout()
-                .Spacing(10)
+                .Spacing(5)
                 .Children(
                     new HorizontalStackLayout()
                     .CenterHorizontal()
                     .Spacing(5)
-                    .Margin(0, 25, 0, 0)
+                    //.Margin(0, 25, 0, 0)
                     .Children(
                         new Label()
                         .Text("My")
                         .TextColor(DeepSkyBlue)
-                        .FontSize(44)
+                        .FontSize(25)
                         .FontAttributes(Bold),
 
                         new Label()
                         .Text("FINANCE")
                         .TextColor(Black)
-                        .FontSize(44)
+                        .FontSize(25)
                         .FontAttributes(Bold)
                     ),
 
-                    new Label()
-                    .Text("Welcome to our app")
-                    .TextColor(Black)
-                    .FontSize(25)
-                    .FontAttributes(Bold)
-                    .Margin(0, 30, 0, 0),
+                    new VerticalStackLayout()
+                    .Spacing(3)
+                    .Children(
+                        new Label()
+                        .Text("Welcome to our app")
+                        .TextColor(Black)
+                        .FontSize(15)
+                        .FontAttributes(Bold),
 
-                    new Label()
-                    .Text("Create a free account")
-                    .TextColor(Black)
-                    .FontSize(15)
-                    .FontAttributes(Italic)
+                        new Label()
+                        .Text("Create a free account")
+                        .TextColor(Black)
+                        .FontSize(12)
+                        .FontAttributes(Italic)
+                    )
                 ),
 
                 new VerticalStackLayout()
-                .Spacing(15)
+                .Spacing(5)
                 .Row(1)
                 .Children(
                     new TextEdit()
@@ -80,12 +83,12 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
 
                     new TextEdit()
                     .LabelText("Phone")
-                    .Keyboard(Keyboard.Telephone)
+                    .Keyboard(Telephone)
                     .Text(e => e.Path("UserModel.PhoneNumber")),
 
                     new TextEdit()
                     .LabelText("Age")
-                    .Keyboard(Keyboard.Numeric)
+                    .Keyboard(Numeric)
                     .Text(e => e.Path("UserModel.Age")),
 
                     new ComboBoxEdit()
@@ -94,30 +97,12 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
                     {
                         "Male",
                         "Female"
-                    }),
-
-                    new Grid()
-                    .ColumnDefinitions(e => e.Star().Star())
-                    .FillHorizontal()
-                    .Children(
-                        new CheckEdit()
-                        .Label("Remember for 30 days")
-                        .AlignStart()
-                        .IsChecked(e => e.Path("UserModel.IsRememberMe")),
-
-                         new Label()
-                         .Text("Forget password")
-                         .TextColor(DeepSkyBlue)
-                         .TextDecorations(Underline)
-                         .TextCenterVertical()
-                         .Column(1)
-                         .AlignEnd()
-                    )
+                    })
                 ),
 
                 new VerticalStackLayout()
                 .Row(2)
-                .Spacing(20)
+                .Spacing(10)
                 .Children(
                      new Button()
                     .Text("Sign up")
@@ -134,7 +119,7 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
                         .Text("Already have an account? ")
                         .TextColor(Black)
                         .FontAttributes(Italic)
-                        .FontSize(16),
+                        .FontSize(14),
 
                          new Label()
                          .Text("Sign in")
@@ -149,7 +134,8 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
 
                 new HorizontalStackLayout()
                 .Row(3)
-                .Center()
+                .CenterHorizontal()
+                .AlignBottom()
                 .Spacing(5)
                 .Children(
                     new Label()
@@ -165,9 +151,13 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<Re
                     .FontSize(18)
                 ),
 
-                new GeneralPopup("HATA", "Kullanıcı Adı veya Şifre Hatalı!!! ", "OK", PopupType.Error)
+                new GeneralPopup("BİLGİ", "Kullanıcı Başarılı Şekilde Eklendi. ", "OK", PopupType.Info)
                 .RowSpan(4)
-                .IsOpen(e => e.Path("IsPopupShow"))
+                .IsOpen(e => e.Path("IsInfoPopupShow")),
+
+                new GeneralPopup("HATA", "İşlem sırasında beklenmeyen bir hata oluştu! ", "OK", PopupType.Error)
+                .RowSpan(4)
+                .IsOpen(e => e.Path("IsErrorPopupShow"))
             )
         );
     }

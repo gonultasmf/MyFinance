@@ -35,6 +35,7 @@ global using static Microsoft.Maui.Controls.LayoutAlignment;
 global using static Microsoft.Maui.Graphics.Colors;
 global using static Microsoft.Maui.TextDecorations;
 global using static Microsoft.Maui.LineBreakMode;
+global using static Microsoft.Maui.Keyboard;
 
 global using MC = Microsoft.Maui.Controls;
 global using DC = DevExpress.Maui.Controls;

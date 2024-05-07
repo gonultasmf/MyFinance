@@ -14,7 +14,10 @@ public partial class RegisterPageViewModel(IUserRepo repo) : BaseViewModel
     };
 
     [ObservableProperty]
-    private bool isPopupShow = false;
+    private bool isInfoPopupShow = false;
+
+    [ObservableProperty]
+    private bool isErrorPopupShow = false;
 
     [ObservableProperty]
     private bool isUserAdded = false;
@@ -30,20 +33,34 @@ public partial class RegisterPageViewModel(IUserRepo repo) : BaseViewModel
         if (!result)
         {
             IsUserAdded = false;
-            IsPopupShow = true;
+            IsErrorPopupShow = true;
         }
         else
         {
             IsUserAdded = true;
-            IsPopupShow = true;
+            IsInfoPopupShow = true;
+            await Task.Delay(3000);
+            UserModel = new()
+            {
+                Email = string.Empty,
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                Password = string.Empty
+            };
+            IsInfoPopupShow = true;
             await AppShell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
     });
 
     public ICommand GoToLoginCommand => new Command(async () =>
     {
+        UserModel = new()
+        {
+            Email = string.Empty,
+            FirstName = string.Empty,
+            LastName = string.Empty,
+            Password = string.Empty
+        };
         await AppShell.Current.GoToAsync($"//{nameof(LoginPage)}");
     });
-
-
 }

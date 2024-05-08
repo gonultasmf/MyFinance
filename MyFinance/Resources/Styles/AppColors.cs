@@ -2,7 +2,7 @@
 {
     public class AppColors
     {
-        public static readonly Color Primary = Color.FromArgb("512BD4");
+        public static readonly Color Primary = DeepSkyBlue;
         public static readonly Color Secondary = Color.FromArgb("DFD8F7");
         public static readonly Color Tertiary = Color.FromArgb("2B0B98");
 

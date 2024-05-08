@@ -21,13 +21,14 @@ global using MyFinance.Context;
 global using MyFinance.Repository;
 global using MyFinance.DTOs;
 global using MyFinance.Controls;
+global using MyFinance.VMs;
 
 global using Microsoft.EntityFrameworkCore;
 
 
 global using DevExpress.Maui.Controls;
 global using DevExpress.Maui.Editors;
-global using DevExpress.Maui.DataForm;
+global using DevExpress.Maui.Charts;
 global using DevExpress.Maui.CollectionView;
 global using DevExpress.Maui.Core;
 global using DevExpress.Maui;

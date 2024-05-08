@@ -7,7 +7,10 @@ namespace MyFinance;
 [MauiMarkup(typeof(StatusBarBehavior), typeof(TextEdit), typeof(TextEditBase), typeof(EditBase), typeof(ComboBoxEdit))]
 [MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
-[MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView))]
+[MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(ChartView), typeof(SeriesCrosshairOptions), typeof(SeriesHintOptions))]
+[MauiMarkup(typeof(SeriesHintOptionsBase), typeof(ChartElement), typeof(LineSeries), typeof(ChartSeriesElement), typeof(XYSeries))]
+[MauiMarkup(typeof(Series), typeof(SeriesBase), typeof(ChartSeriesElement), typeof(SeriesDataAdapter), typeof(DataSourceAdapterBase))]
+[MauiMarkup(typeof(ValueDataMember))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -30,6 +33,9 @@ public static class MauiProgram
             .AddSingleton<AppShell>()
             .AddDbContext<MyFinanceContext>()
             .AddScopedWithShellRoute<MainPage, MainPageViewModel>($"//{nameof(MainPage)}")
+            .AddScopedWithShellRoute<ChartPage, ChartPageViewModel>($"//{nameof(ChartPage)}")
+            .AddScopedWithShellRoute<ItemsPage, ItemsPageViewModel>($"//{nameof(ItemsPage)}")
+            .AddScopedWithShellRoute<AccountPage, AccountPageViewModel>($"//{nameof(AccountPage)}")
             .AddScopedWithShellRoute<LoginPage, LoginPageViewModel>($"//{nameof(LoginPage)}")
             .AddScopedWithShellRoute<RegisterPage, RegisterPageViewModel>($"//{nameof(RegisterPage)}")
             .AddScoped<StartedPage>()

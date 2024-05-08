@@ -8,7 +8,8 @@ public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageVi
     {
         this
         .Content(
-            new VerticalStackLayout()
+            new Grid()
+            .RowDefinitions(e => e.Star().Star().Star().Star(6.5))
             .Spacing(20)
             .Margin(20,20,20,10)
             .Children(
@@ -26,16 +27,17 @@ public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageVi
                         new Label()
                         .FontAttributes(Bold)
                         .TextColor(Black)
-                        .Text("Lilliie-May Mcdonelli"),
+                        .Text(e => e.Path("User.Name")),
 
                         new Label()
                         .TextColor(Gray)
-                        .Text("hello@amail.com")
+                        .Text(e => e.Path("User.Email"))
                     )
                 ),
 
                 new VerticalStackLayout()
                 .Spacing(-3)
+                .Row(1)
                 .Children(
                     new Label()
                     .FontAttributes(Bold)
@@ -48,21 +50,21 @@ public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageVi
                     .Spacing(10,3)
                     .Children(
                         new Label()
-                        .Text("25,291.50 ₺")
+                        .Text(e => e.Path("TotalBalance"))
                         .FontAttributes(Bold)
                         .FontSize(40)
                         .RowSpan(2),
 
                         new Label()
-                        .Text("+130.65%")
+                        .Text(e => e.Path("TotalIncome"))
                         .TextColor(Green)
                         .FontSize(12)
                         .Column(1)
                         .AlignBottomEnd(),
 
                         new Label()
-                        .Text("+2,367.72₺")
-                        .TextColor(DarkGray)
+                        .Text(e => e.Path("TotalExpense"))
+                        .TextColor(Red)
                         .FontSize(12)
                         .Column(1)
                         .Row(1)
@@ -73,6 +75,7 @@ public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageVi
                 new Grid()
                 .ColumnDefinitions(e => e.Star().Star())
                 .ColumnSpacing(10)
+                .Row(2)
                 .Children(
                     new DXButton()
                     .HeightRequest(100)
@@ -104,32 +107,72 @@ public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageVi
                 .CornerRadius(20)
                 .BorderColor(Black)
                 .BackgroundColor(Transparent)
+                .Row(3)
                 .Content(
-                    new VerticalStackLayout()
+                    new Grid()
                     .FillBothDirections()
+                    .RowDefinitions(e => e.Star(0.6).Star(0.05).Star(9.35))
                     .Children(
                         new Label()
                         .FontAttributes(Bold)
                         .TextColor(Black)
                         .Text("Watchlist"),
 
+                        new Label()
+                        .FontAttributes(Bold)
+                        .TextColor(Black)
+                        .Text("Son 10 İşlem ")
+                        .AlignEnd(),
+
                         new Border()
-                        .StrokeThickness(1),
+                        .StrokeThickness(1)
+                        .Row(1),
 
                         new DXCollectionView()
-                        .ItemsSource(e => e.Path(""))
-                        .IsRefreshing(e => e.Path("").BindingMode(TwoWay))
+                        .ItemsSource(e => e.Path("Items"))
+                        .Row(2)
                         .ItemTemplate(() =>
                             new Grid()
                             .RowDefinitions(e => e.Star().Star())
                             .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
+                            .Spacing(5)
                             .Margin(5)
                             .Children(
                                 new DXImage()
-                                .Source(e => e.Path(""))
-                                .SizeRequest(40,40)
-                                .RowSpan(2)
+                                .Source(e => e.Path("Icon"))
+                                .SizeRequest(30,30)
+                                .RowSpan(2),
 
+                                new Label()
+                                .FontAttributes(Bold)
+                                .TextColor(Black)
+                                .Text(e => e.Path("Title"))
+                                .AlignBottom()
+                                .Column(1),
+
+                                new Label()
+                                .TextColor(DarkGray)
+                                .Text(e => e.Path("Description"))
+                                .FontSize(12)
+                                .FontAttributes(Italic)
+                                .AlignTop()
+                                .Column(1)
+                                .Row(1),
+
+                                new Label()
+                                .Text(e => e.Path("Date"))
+                                .TextColor(DarkGray)
+                                .FontSize(10)
+                                .Column(2)
+                                .AlignBottomEnd(),
+
+                                new Label()
+                                .Text(e => e.Path("Amount"))
+                                .TextColor(e => e.Path("Color"))
+                                .FontSize(12)
+                                .Column(2)
+                                .Row(1)
+                                .AlignTopEnd()
                             )
                         )
                     )

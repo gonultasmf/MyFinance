@@ -351,10 +351,10 @@ public class AppStyles
             .ShellTitleColor(e => e.OnLight(Colors.White).OnDark(Colors.White))
             .ShellDisabledColor(e => e.OnLight(AppColors.Gray200).OnDark(AppColors.Gray950))
             .ShellUnselectedColor(e => e.OnLight(AppColors.Gray200).OnDark(AppColors.Gray200))
-            .ShellTabBarBackgroundColor(e => e.OnLight(Colors.White).OnDark(Colors.Black))
-            .ShellTabBarForegroundColor(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))
-            .ShellTabBarTitleColor(e => e.OnLight(AppColors.Primary).OnDark(Colors.White))
-            .ShellTabBarUnselectedColor(e => e.OnLight(AppColors.Gray900).OnDark(AppColors.Gray200))),
+            .ShellTabBarBackgroundColor(White)
+            .ShellTabBarForegroundColor(Black)
+            .ShellTabBarTitleColor(DeepSkyBlue)
+            .ShellTabBarUnselectedColor(AppColors.Gray900)),
 
         // "NavigationPage"
 

@@ -48,19 +48,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\adjust.png" />
+	  <None Remove="Resources\Images\chart.png" />
 	  <None Remove="Resources\Images\down_arrow.png" />
+	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\getstarted.png" />
+	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\loss.png" />
 	  <None Remove="Resources\Images\profits.png" />
 	  <None Remove="Resources\Images\up_arrow.png" />
+	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="DevExpress.Maui.Charts" Version="24.1.1-alpha-24085" />
 		<PackageReference Include="DevExpress.Maui.Controls" Version="24.1.1-alpha-24085" />
 		<PackageReference Include="DevExpress.Maui.Editors" Version="24.1.1-alpha-24085" />
-		<PackageReference Include="FmgLib.MauiMarkup" Version="8.2.3-prev1.0.0" />
+		<PackageReference Include="FmgLib.MauiMarkup" Version="8.2.3-prev1.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />

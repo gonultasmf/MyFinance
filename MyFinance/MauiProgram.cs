@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 using DXImage = DevExpress.Maui.Core.DXImage;
 
 namespace MyFinance;
@@ -7,10 +9,8 @@ namespace MyFinance;
 [MauiMarkup(typeof(StatusBarBehavior), typeof(TextEdit), typeof(TextEditBase), typeof(EditBase), typeof(ComboBoxEdit))]
 [MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
-[MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(ChartView), typeof(SeriesCrosshairOptions), typeof(SeriesHintOptions))]
-[MauiMarkup(typeof(SeriesHintOptionsBase), typeof(ChartElement), typeof(LineSeries), typeof(ChartSeriesElement), typeof(XYSeries))]
-[MauiMarkup(typeof(Series), typeof(SeriesBase), typeof(ChartSeriesElement), typeof(SeriesDataAdapter), typeof(DataSourceAdapterBase))]
-[MauiMarkup(typeof(ValueDataMember))]
+[MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(CartesianChart))]
+
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -20,12 +20,14 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseDevExpress()
             .UseMauiCommunityToolkit()
+            .UseSkiaSharp(true)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
-
+            })
+            .UseMauiCompatibility();
+        
         builder.Logging.AddDebug();
 
         builder.Services

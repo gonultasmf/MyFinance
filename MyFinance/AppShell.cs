@@ -11,7 +11,6 @@ public partial class AppShell : Shell
         )
         .FlyoutBehavior(FlyoutBehavior.Disabled)
         .Items(
-
             new TabBar()
             .Items(
                 new Tab()

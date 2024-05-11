@@ -2,7 +2,7 @@
 
 namespace MyFinance.Views;
 
-public partial class RegisterPage(RegisterPageViewModel viewModel) : BasePage<RegisterPageViewModel>(viewModel, "Register Page")
+public partial class RegisterPage(RegisterPageViewModel viewModel) : FmgLibContentPage<RegisterPageViewModel>(viewModel)
 {
     public override void Build()
     {

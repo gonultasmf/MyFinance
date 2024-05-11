@@ -10,7 +10,6 @@ namespace MyFinance;
 [MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
 [MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(CartesianChart))]
-
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

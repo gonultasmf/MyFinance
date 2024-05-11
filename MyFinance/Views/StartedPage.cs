@@ -1,6 +1,6 @@
 ﻿namespace MyFinance.Views;
 
-public partial class StartedPage() : BasePage("Get Started")
+public partial class StartedPage : FmgLibContentPage
 {
     public override void Build()
     {

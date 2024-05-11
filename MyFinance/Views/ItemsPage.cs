@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyFinance.Views;
 
-public partial class ItemsPage(ItemsPageViewModel viewModel) : BasePage<ItemsPageViewModel>(viewModel, "Items Page")
+public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage<ItemsPageViewModel>(viewModel)
 {
     public override void Build()
     {

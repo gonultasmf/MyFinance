@@ -2,7 +2,7 @@
 
 namespace MyFinance.Views;
 
-public partial class MainPage(MainPageViewModel viewModel) : BasePage<MainPageViewModel>(viewModel, "Main Page")
+public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<MainPageViewModel>(viewModel)
 {
     public override void Build()
     {

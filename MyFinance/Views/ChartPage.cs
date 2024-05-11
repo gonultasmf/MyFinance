@@ -1,14 +1,15 @@
 ﻿namespace MyFinance.Views;
 
-public partial class ChartPage(ChartPageViewModel viewModel) : BasePage<ChartPageViewModel>(viewModel, "Chart Page")
+public partial class ChartPage(ChartPageViewModel viewModel) : FmgLibContentPage<ChartPageViewModel>(viewModel)
 {
     public override void Build()
     {
         this
         .Content(
             new Grid()
-            .RowDefinitions(e => e.Star(.6).Star(8.8).Star(.6))
-            .Margin(5)
+            .RowDefinitions(e => e.Star(1.3).Star(.7).Star(8))
+            .Spacing(10)
+            .Margin(10)
             .Children(
                 new VerticalStackLayout()
                 .Spacing(-3)
@@ -46,21 +47,34 @@ public partial class ChartPage(ChartPageViewModel viewModel) : BasePage<ChartPag
                     )
                 ),
 
-                new CartesianChart()
+                new ComboBoxEdit()
                 .Row(1)
+                .SelectedIndex(e => e.Path("CType"))
+                .SelectionChangedCommand(e => e.Path("ChartTypeChangedCommand"))
+                .ItemsSource(new List<string>
+                {
+                    "Haftalık Grafik",
+                    "Aylık Grafik",
+                    "6 Aylık Grafik",
+                    "Yıllık Grafik"
+                }),
+
+                new CartesianChart()
+                .Row(2)
                 .Series(e => e.Path("Series"))
                 .XAxes(e => e.Path("XAxes"))
-                .ZoomMode(ZoomX),
+                .YAxes(e => e.Path("YAxes"))
+                .ZoomMode(ZoomX)
 
-                new HorizontalStackLayout()
-                .Row(2)
-                .Spacing(10)
-                .Children(
-                    new Button().Command(e => e.Path("GoToPage1Command")).Text("Weeks"),
-                    new Button().Command(e => e.Path("GoToPage2Command")).Text("Month"),
-                    new Button().Command(e => e.Path("GoToPage3Command")).Text("6 Months"),
-                    new Button().Command(e => e.Path("SeeAllCommand")).Text("Clear")
-                )
+                //new HorizontalStackLayout()
+                //.Row(2)
+                //.Spacing(10)
+                //.Children(
+                //    new Button().Command(e => e.Path("GoToPage1Command")).Text("Weeks"),
+                //    new Button().Command(e => e.Path("GoToPage2Command")).Text("Month"),
+                //    new Button().Command(e => e.Path("GoToPage3Command")).Text("6 Months"),
+                //    new Button().Command(e => e.Path("SeeAllCommand")).Text("Clear")
+                //)
             )
         );
     }

@@ -47,17 +47,24 @@ public partial class ChartPage(ChartPageViewModel viewModel) : FmgLibContentPage
                     )
                 ),
 
-                new ComboBoxEdit()
-                .Row(1)
-                .SelectedIndex(e => e.Path("CType"))
-                .SelectionChangedCommand(e => e.Path("ChartTypeChangedCommand"))
-                .ItemsSource(new List<string>
-                {
-                    "Haftalık Grafik",
-                    "Aylık Grafik",
-                    "6 Aylık Grafik",
-                    "Yıllık Grafik"
-                }),
+                new Grid()
+                .ColumnDefinitions(e => e.Star().Star())
+                .Children(
+                    new ComboBoxEdit()
+                    .Row(1)
+                    .SelectedIndex(e => e.Path("CType"))
+                    .ItemsSource(new List<string>
+                    {
+                        "Haftalık Grafik",
+                        "Aylık Grafik",
+                        "6 Aylık Grafik",
+                        "Yıllık Grafik"
+                    }),
+
+                    new Button()
+                    .Text("Listele")
+                    .Command(e => e.Path("ChartTypeChangedCommand"))
+                ),
 
                 new CartesianChart()
                 .Row(2)

@@ -45,3 +45,4 @@ global using static LiveChartsCore.Measure.ZoomAndPanMode;
 
 global using MC = Microsoft.Maui.Controls;
 global using DC = DevExpress.Maui.Controls;
+global using LC = LiveChartsCore.SkiaSharpView;

@@ -94,7 +94,7 @@ public partial class LoginPage(LoginPageViewModel viewModel) : FmgLibContentPage
                     .BackgroundColor(DeepSkyBlue)
                     .TextColor(Black)
                     .FontSize(15)
-                    .Command(BindingContext.LoginCommand),
+                    .Command(e => e.Path("LoginCommand")),
 
                      new HorizontalStackLayout()
                      .CenterHorizontal()
@@ -112,7 +112,7 @@ public partial class LoginPage(LoginPageViewModel viewModel) : FmgLibContentPage
                          .TextDecorations(Underline)
                          .GestureRecognizers(
                              new TapGestureRecognizer()
-                             .Command(BindingContext.GoToRegisterCommand)
+                             .Command(e => e.Path("GoToRegisterCommand"))
                          )
                      )
                 ),

@@ -51,6 +51,7 @@
 	  <None Remove="Resources\Images\adjust.png" />
 	  <None Remove="Resources\Images\chart.png" />
 	  <None Remove="Resources\Images\down_arrow.png" />
+	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\getstarted.png" />
 	  <None Remove="Resources\Images\home.png" />

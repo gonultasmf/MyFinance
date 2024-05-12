@@ -9,8 +9,8 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
         this
         .Content(
             new Grid()
-            .RowDefinitions(e => e.Star().Star().Star().Star(6.5))
-            .Spacing(20)
+            .RowDefinitions(e => e.Star(.8).Star(1.2).Star(1.2).Star(6.8))
+            .Spacing(15)
             .Margin(20,20,20,10)
             .Children(
                 new HorizontalStackLayout()

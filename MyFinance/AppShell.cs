@@ -11,6 +11,21 @@ public partial class AppShell : Shell
         )
         .FlyoutBehavior(FlyoutBehavior.Disabled)
         .Items(
+            new ShellContent()
+            .Title("")
+            .ContentTemplate(() => new StartedPage())
+            .Route("StartedPage"),
+
+            new ShellContent()
+            .Title("")
+            .ContentTemplate(() => serviceProvider.GetService<LoginPage>())
+            .Route("LoginPage"),
+
+            new ShellContent()
+            .Title("")
+            .ContentTemplate(() => serviceProvider.GetService<RegisterPage>())
+            .Route("RegisterPage"),
+
             new TabBar()
             .Items(
                 new Tab()
@@ -40,23 +55,7 @@ public partial class AppShell : Shell
                 .Route(nameof(AccountPage))
                 .FlyoutDisplayOptions(FlyoutDisplayOptions.AsSingleItem)
                 .Icon("user.png")
-            ),
-
-            new ShellContent()
-            .Title("")
-            .ContentTemplate(() => new StartedPage())
-            .Route("StartedPage"),
-
-            new ShellContent()
-            .Title("")
-            .ContentTemplate(() => serviceProvider.GetService<LoginPage>())
-            .Route("LoginPage"),
-
-            new ShellContent()
-            .Title("")
-            .ContentTemplate(() => serviceProvider.GetService<RegisterPage>())
-            .Route("RegisterPage")
-
+            )
         );
     }
 }

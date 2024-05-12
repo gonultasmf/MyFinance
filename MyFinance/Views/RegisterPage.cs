@@ -109,7 +109,7 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : FmgLibConte
                     .BackgroundColor(DeepSkyBlue)
                     .TextColor(Black)
                     .FontSize(15)
-                    .Command(BindingContext.RegisterCommand),
+                    .Command(e => e.Path("RegisterCommand")),
 
                      new HorizontalStackLayout()
                      .CenterHorizontal()
@@ -127,7 +127,7 @@ public partial class RegisterPage(RegisterPageViewModel viewModel) : FmgLibConte
                          .TextDecorations(Underline)
                          .GestureRecognizers(
                              new TapGestureRecognizer()
-                             .Command(BindingContext.GoToLoginCommand)
+                             .Command(e => e.Path("GoToLoginCommand"))
                          )
                      )
                 ),

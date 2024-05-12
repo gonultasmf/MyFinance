@@ -4,6 +4,5 @@ public enum ChartType
 {
     Weekly,
     Monthly,
-    SixMonthly,
-    Yearly
+    SixMonthly
 }

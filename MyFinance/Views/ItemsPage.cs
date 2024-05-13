@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyFinance.Views;
+﻿namespace MyFinance.Views;
 
 public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage<ItemsPageViewModel>(viewModel)
 {
@@ -12,9 +6,39 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
     {
         this
         .Content(
-            new Label()
-            .Text("ItemsPage")
-            .Center()
+            new TabView()
+            .ItemsSource(
+                new List<TabViewItem>()
+                {
+                    new TabViewItem()
+                    .HeaderText("Mail")
+                    .HeaderTextColor(Black)
+                    .HeaderIcon("home.png")
+                    .HeaderIconColor(Black)
+                    .Content(
+                        new Grid()
+                        .Children(
+                            new Label()
+                            .Text("Mail List")
+                            .Center()
+                        )
+                    ),
+
+                    new TabViewItem()
+                    .HeaderText("Temp")
+                    .HeaderTextColor(Black)
+                    .HeaderIconColor(Black)
+                    .HeaderIcon("home.png")
+                    .Content(
+                        new Grid()
+                        .Children(
+                            new Label()
+                            .Text("Mail List")
+                            .Center()
+                        )
+                    )
+                }
+            )
         );
     }
 }

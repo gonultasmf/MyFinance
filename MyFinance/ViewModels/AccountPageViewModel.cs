@@ -84,9 +84,21 @@ public partial class AccountPageViewModel : BaseViewModel
     [RelayCommand]
     public async Task Save()
     {
+        var accessUser = AuthCheckHelper.ParseBasicAuthToken(SecureStorage.GetAsync("USERAUTH").Result);
         var result = await _userRepo.UpdateAsync(UserModel);
         if (result)
         {
+            if (UserModel.Email != accessUser.Item1 || UserModel.Password != accessUser.Item2)
+            {
+                var auth = AuthCheckHelper.BasicAuth(UserModel.Email, UserModel.Password, accessUser.Item3.Value);
+                await SecureStorage.SetAsync("USERAUTH", auth);
+            }
+            User = new()
+            {
+                Name = $"{UserModel?.FirstName} {UserModel?.LastName}",
+                Email = UserModel?.Email ?? string.Empty
+            };
+
             InfoPopupColor = SkyBlue;
             InfoPopupTitle = "BİLGİ";
             infoPopupDesc = "İşlem başarılı olmuştur.";

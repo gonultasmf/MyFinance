@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
 using DXImage = DevExpress.Maui.Core.DXImage;
+using SwipeItem = DevExpress.Maui.CollectionView.SwipeItem;
 
 namespace MyFinance.Views;
 
@@ -55,51 +56,73 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     new DXCollectionView()
                     .ItemsSource(e => e.Path("Items"))
                     .IsRefreshing(e => e.Path("IsRefreshing").BindingMode(TwoWay))
-                    .IsLoadMoreEnabled(true)
+                    .IsLoadMoreEnabled(e => e.Path("IsLoadMoreEnabled"))
                     .LoadMoreCommand(e => e.Path("LoadMoreCommand"))
                     .IndicatorColor(DeepSkyBlue)
                     .ItemTemplate(() =>
-                        new Grid()
-                        .RowDefinitions(e => e.Star().Star())
-                        .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
-                        .Spacing(5)
-                        .Margin(5)
-                        .Children(
-                            new DXImage()
-                            .Source(e => e.Path("Icon"))
-                            .SizeRequest(30, 30)
-                            .RowSpan(2),
+                        new SwipeContainer()
+                        .FullSwipeMode(FullSwipeMode.Both)
+                        .StartSwipeItems(
+                            new SwipeItemCollection()
+                            {
+                                new SwipeItem()
+                                .Caption("Düzenle")
+                                .BackgroundColor(Orange)
+                                .Image("home.png")
+                            }
+                        )
+                        .EndSwipeItems(
+                            new SwipeItemCollection()
+                            {
+                                new SwipeItem()
+                                .Caption("Sil")
+                                .BackgroundColor(Red)
+                                .Image("home.png")
+                            }
+                        )
+                        .ItemView(
+                            new Grid()
+                            .RowDefinitions(e => e.Star().Star())
+                            .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
+                            .Spacing(5)
+                            .Margin(5)
+                            .Children(
+                                new DXImage()
+                                .Source(e => e.Path("Icon"))
+                                .SizeRequest(30, 30)
+                                .RowSpan(2),
 
-                            new Label()
-                            .FontAttributes(Bold)
-                            .TextColor(Black)
-                            .Text(e => e.Path("Title"))
-                            .AlignBottom()
-                            .Column(1),
+                                new Label()
+                                .FontAttributes(Bold)
+                                .TextColor(Black)
+                                .Text(e => e.Path("Title"))
+                                .AlignBottom()
+                                .Column(1),
 
-                            new Label()
-                            .TextColor(DarkGray)
-                            .Text(e => e.Path("Description"))
-                            .FontSize(12)
-                            .FontAttributes(Italic)
-                            .AlignTop()
-                            .Column(1)
-                            .Row(1),
+                                new Label()
+                                .TextColor(DarkGray)
+                                .Text(e => e.Path("Description"))
+                                .FontSize(12)
+                                .FontAttributes(Italic)
+                                .AlignTop()
+                                .Column(1)
+                                .Row(1),
 
-                            new Label()
-                            .Text(e => e.Path("Date"))
-                            .TextColor(DarkGray)
-                            .FontSize(10)
-                            .Column(2)
-                            .AlignBottomEnd(),
+                                new Label()
+                                .Text(e => e.Path("Date"))
+                                .TextColor(DarkGray)
+                                .FontSize(10)
+                                .Column(2)
+                                .AlignBottomEnd(),
 
-                            new Label()
-                            .Text(e => e.Path("Amount"))
-                            .TextColor(e => e.Path("Color"))
-                            .FontSize(12)
-                            .Column(2)
-                            .Row(1)
-                            .AlignTopEnd()
+                                new Label()
+                                .Text(e => e.Path("Amount"))
+                                .TextColor(e => e.Path("Color"))
+                                .FontSize(12)
+                                .Column(2)
+                                .Row(1)
+                                .AlignTopEnd()
+                            )
                         )
                     )
                 ),

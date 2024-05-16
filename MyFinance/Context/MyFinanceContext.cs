@@ -3,6 +3,7 @@
 public class MyFinanceContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<OperationItem> OperationItems { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

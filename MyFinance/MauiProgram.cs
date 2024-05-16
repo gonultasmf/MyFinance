@@ -2,6 +2,7 @@
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using DXImage = DevExpress.Maui.Core.DXImage;
+using SwipeItem = DevExpress.Maui.CollectionView.SwipeItem;
 
 namespace MyFinance;
 
@@ -10,7 +11,8 @@ namespace MyFinance;
 [MauiMarkup(typeof(PasswordEdit), typeof(CheckEdit), typeof(DXPopup), typeof(ComboBoxEditBase), typeof(ItemsEditBase))]
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
 [MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(CartesianChart), typeof(TabView), typeof(TabViewItem))]
-[MauiMarkup(typeof(TabItem), typeof(DXButtonBase), typeof(ShimmerView))]
+[MauiMarkup(typeof(TabItem), typeof(DXButtonBase), typeof(ShimmerView), typeof(DXCollectionViewBase), typeof(SwipeContainer))]
+[MauiMarkup(typeof(SwipeItem))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -34,6 +36,7 @@ public static class MauiProgram
             .AddSingleton<App>()
             .AddSingleton<AppShell>()
             .AddDbContext<MyFinanceContext>()
+            .AddAutoMapper(typeof(App))
             .AddScopedWithShellRoute<MainPage, MainPageViewModel>($"//{nameof(MainPage)}")
             .AddScopedWithShellRoute<ChartPage, ChartPageViewModel>($"//{nameof(ChartPage)}")
             .AddScopedWithShellRoute<ItemsPage, ItemsPageViewModel>($"//{nameof(ItemsPage)}")
@@ -41,7 +44,8 @@ public static class MauiProgram
             .AddScopedWithShellRoute<LoginPage, LoginPageViewModel>($"//{nameof(LoginPage)}")
             .AddScopedWithShellRoute<RegisterPage, RegisterPageViewModel>($"//{nameof(RegisterPage)}")
             .AddScoped<StartedPage>()
-            .AddScoped<IUserRepo, UserRepo>();
+            .AddScoped<IUserRepo, UserRepo>()
+            .AddScoped<IOperationItemsRepo, OperationItemsRepo>();
 
         #region Init DB
         var dbContext = new MyFinanceContext();
@@ -59,6 +63,33 @@ public static class MauiProgram
                 IsActive = true,
                 PhoneNumber = "1234567890"
             });
+            dbContext.SaveChanges();
+        }
+
+        if (dbContext.OperationItems.Count() <= 0)
+        {
+            List<OperationItem> items = new List<OperationItem>();
+            Random random = new Random();
+            for (int i = 1; i <= 500; i++)
+            {
+                var amount = random.Next(1, 10000);
+                items.Add(
+                    new OperationItem
+                    {
+                        Icon = amount % 2 == 0 ? "loss.png" : "profits.png",
+                        Color = amount % 2 == 0 ? nameof(Red) : nameof(Green),
+                        Date = DateTime.Now.AddDays(-(amount % 200)),
+                        Title = amount % 2 == 0 ? "Borç ödendi" : "Ödeme Alındı",
+                        Description = amount % 2 == 0 ? "Ödemeler yapıldı" : "Yaka parası alındı.",
+                        Amount = amount,
+                        CreateDate = DateTime.Now.AddDays(-(amount % 200)),
+                        UpdateDate = DateTime.Now.AddDays(-(amount % 200)),
+                        IsActive = true
+                    }
+                );
+            }
+
+            dbContext.AddRange(items);
             dbContext.SaveChanges();
         }
         dbContext.Dispose();

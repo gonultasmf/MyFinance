@@ -1,18 +1,15 @@
-﻿using LiveChartsCore.SkiaSharpView.Painting.Effects;
-using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
-using System.Linq;
-using LiveChartsCore.Drawing;
-using System.Linq.Expressions;
-using System.Globalization;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.Painting.Effects;
+using SkiaSharp;
+using System.Globalization;
 
 namespace MyFinance.ViewModels;
 
 public partial class ChartPageViewModel : BaseViewModel
 {
+    private readonly IOperationItemsRepo _operationItemsRepo;
     CultureInfo culture = new CultureInfo("tr-TR");
 
     [ObservableProperty]
@@ -86,35 +83,10 @@ public partial class ChartPageViewModel : BaseViewModel
     private static readonly SKColor s_red = new(255, 0, 0);
     private static readonly SKColor s_blue = new(0, 0, 255);
 
-
-    private List<OperatonItemsVM> items = new();
-
-    public ChartPageViewModel()
+    public ChartPageViewModel(IOperationItemsRepo operationItemsRepo)
     {
+        _operationItemsRepo = operationItemsRepo;
         CType = (int)ChartType.Weekly;
-        TotalBalance = "25,291.50 ₺";
-        TotalExpense = "2,367.82 ₺";
-        TotalIncome = "167.82 ₺";
-
-
-
-        Random random = new Random();
-        for (int i = 1; i <= 500; i++)
-        {
-            var amount = random.Next(1, 10000);
-            items.Add(
-                new OperatonItemsVM
-                {
-                    Id = Guid.NewGuid(),
-                    Icon = amount % 2 == 0 ? "loss.png" : "profits.png",
-                    Color = amount % 2 == 0 ? Red : Green,
-                    Date = DateTime.Now.AddDays(-(amount % 180)).ToString("dd.MM.yyyy HH:mm"),
-                    Title = amount % 2 == 0 ? "Borç ödendi" : "Ödeme Alındı",
-                    Description = amount % 2 == 0 ? "Ödemeler yapıldı" : "Yaka parası alındı.",
-                    Amount = $"{amount} ₺"
-                }
-            );
-        }
 
         Calc(7);
     }
@@ -131,12 +103,12 @@ public partial class ChartPageViewModel : BaseViewModel
             Calc(180);
     }
 
-    private void Calc(int days)
+    private async Task Calc(int days)
     {
-        var graphVals = items
-            .Where(e => DateTime.Parse(e.Date) > DateTime.Now.AddDays(-days))
-            .Select(e => new OperationGraphVM { Date = DateTime.Parse(e.Date).Date, Amount = double.Parse(e.Amount.Trim().Trim('₺')), IsIncome = e.Color == Green })
-            .OrderBy(e => e.Date)
+        var graphVals = (await _operationItemsRepo.GetAllAsync(
+            expression: e => e.Date > DateTime.Now.AddDays(-days),
+            ordered: e => e.Date.Date))
+            .Select(e => new OperationGraphVM { Date = e.Date.Date, Amount = e.Amount, IsIncome = e.Color == nameof(Green) })
             .ToList();
 
         var strokeThickness = 6;

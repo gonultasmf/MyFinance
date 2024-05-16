@@ -1,6 +1,6 @@
 ﻿namespace MyFinance.VMs;
 
-public class OperatonItemsVM
+public class OperationItemsVM
 {
     public Guid Id { get; set; }
     public string Icon { get; set; }

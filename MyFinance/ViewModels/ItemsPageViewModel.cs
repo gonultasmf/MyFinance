@@ -2,19 +2,23 @@
 
 public partial class ItemsPageViewModel : BaseViewModel
 {
-    static List<OperatonItemsVM> AllItems = new List<OperatonItemsVM>();
+    private readonly IOperationItemsRepo _operationItemsRepo;
+    private readonly IMapper _mapper;
 
     [ObservableProperty]
-    private List<OperatonItemsVM> items = new();
+    private List<OperationItemsVM> items = new();
 
     [ObservableProperty]
-    private List<int> loadingItems = new() { 0,0,0,0,0,0,0,0,0,0,0 };
+    private List<int> loadingItems = new() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     [ObservableProperty]
     private bool isLoadingItems = false;
 
     [ObservableProperty]
     private bool isRefreshing = false;
+
+    [ObservableProperty]
+    private bool isLoadMoreEnabled = true;
 
     [ObservableProperty]
     private int operationType = 0;
@@ -25,43 +29,42 @@ public partial class ItemsPageViewModel : BaseViewModel
     [ObservableProperty]
     private bool isShowPopup = false;
 
-    private int index = 0;
+    private int index = 15;
 
-    public ItemsPageViewModel()
+    public ItemsPageViewModel(IOperationItemsRepo operationItemsRepo, IMapper mapper)
     {
-        Random random = new Random();
-        for (int i = 1; i <= 500; i++)
-        {
-            var amount = random.Next(1, 10000);
-            AllItems.Add(
-                new OperatonItemsVM
-                {
-                    Id = Guid.NewGuid(),
-                    Icon = amount % 2 == 0 ? "loss.png" : "profits.png",
-                    Color = amount % 2 == 0 ? Red : Green,
-                    Date = DateTime.Now.AddDays(-(amount % 200)).ToString("dd.MM.yyyy HH:mm"),
-                    Title = amount % 2 == 0 ? "Borç ödendi" : "Ödeme Alındı",
-                    Description = amount % 2 == 0 ? "Ödemeler yapıldı" : "Yaka parası alındı.",
-                    Amount = $"{amount} ₺"
-                }
-            );
-        }
+        _operationItemsRepo = operationItemsRepo;
+        _mapper = mapper;
 
-        Items = AllItems.Take(15).ToList();
+        Items = GetItems(GetDate()).Result;
     }
 
 
-    public List<OperatonItemsVM> GetItems(DateTime date)
+    private async Task<List<OperationItemsVM>> GetItems(DateTime date)
     {
-        var tempList = AllItems
-            .Where(e => DateTime.Parse(e.Date) >= date && OperationType == 0 ? true : OperationType == 1 ? e.Color == Green : e.Color == Red)
-            .OrderByDescending(e => DateTime.Parse(e.Date))
-            .Skip(index)
-            .Take(15)
-            .ToList();
+        var tempList = await _operationItemsRepo.GetAllAsync(
+            expression: e => e.Date >= date && (OperationType == 0 ? true : OperationType == 1 ? e.Color == nameof(Green) : e.Color == nameof(Red)),
+            ordered: e => e.Date,
+            skip: index,
+            limit: 15);
+        index += 15;
 
-        return tempList;
+        if (tempList.Count == 0)
+            IsLoadMoreEnabled = false;
+        else
+            IsLoadMoreEnabled = true;
+
+        return _mapper.Map<List<OperationItemsVM>>(tempList) ?? new();
     }
+
+    private DateTime GetDate() => DateType switch
+    {
+        0 => DateTime.Now.AddDays(-7),
+        1 => DateTime.Now.AddMonths(-1),
+        2 => DateTime.Now.AddMonths(-6),
+        3 => DateTime.Now.AddYears(-1)
+    };
+    
 
     [RelayCommand]
     public async Task ApplyFilter()
@@ -69,14 +72,7 @@ public partial class ItemsPageViewModel : BaseViewModel
         IsLoadingItems = true;
         index = 0;
 
-        if (DateType == 0)
-            Items = GetItems(DateTime.Now.AddDays(-7));
-        else if (DateType == 1)
-            Items = GetItems(DateTime.Now.AddMonths(-1));
-        else if (DateType == 2)
-            Items = GetItems(DateTime.Now.AddMonths(-6));
-        else if (DateType == 3)
-            Items = GetItems(DateTime.Now.AddYears(-1));
+        Items = await GetItems(GetDate());
 
         IsShowPopup = false;
         await Task.Delay(1500);
@@ -90,14 +86,7 @@ public partial class ItemsPageViewModel : BaseViewModel
         if (index != 0)
             IsRefreshing = true;
 
-        if (DateType == 0)
-            Items.AddRange(GetItems(DateTime.Now.AddDays(-7)));
-        else if (DateType == 1)
-            Items.AddRange(GetItems(DateTime.Now.AddMonths(-1)));
-        else if (DateType == 2)
-            Items.AddRange(GetItems(DateTime.Now.AddMonths(-6)));
-        else if (DateType == 3)
-            Items.AddRange(GetItems(DateTime.Now.AddYears(-1)));
+        Items.AddRange(await GetItems(GetDate()));
 
         //await Task.Delay(1500);
         index += 15;
@@ -105,7 +94,7 @@ public partial class ItemsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task ShowFilterPopup()
+    public void ShowFilterPopup()
     {
         IsShowPopup = true;
     }

@@ -22,8 +22,10 @@ global using MyFinance.Repository;
 global using MyFinance.DTOs;
 global using MyFinance.Controls;
 global using MyFinance.VMs;
+global using MyFinance.Mapping;
 
 global using Microsoft.EntityFrameworkCore;
+global using AutoMapper;
 
 global using LiveChartsCore;
 global using LiveChartsCore.SkiaSharpView;

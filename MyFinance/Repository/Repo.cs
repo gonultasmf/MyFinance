@@ -37,6 +37,25 @@ public class Repo<TModel> : IRepo<TModel> where TModel : BaseModel
         return await query.ToListAsync();
     }
 
+    public async Task<double> GetSumAsync(Expression<Func<TModel, double>> sumProp, Expression<Func<TModel, bool>> expression = null, Expression<Func<TModel, object>> include = null, int? skip = null, int? limit = null)
+    {
+        var query = Table.AsNoTracking();
+
+        if (expression != null)
+            query = query.Where(expression);
+
+        if (include != null)
+            query = query.Include(include);
+
+        if (skip.HasValue)
+            query = query.Skip(skip.Value);
+
+        if (limit.HasValue)
+            query = query.Take(limit.Value);
+
+        return await query.SumAsync(sumProp);
+    }
+
     public async Task<int> GetCountAsync(Expression<Func<TModel, bool>> filter = null)
     {
         var query = Table.AsNoTracking();

@@ -1,10 +1,8 @@
-﻿using AutoMapper;
+﻿namespace MyFinance.Mapping;
 
-namespace MyFinance.Mapping;
-
-public class UserProfile : Profile
+public class OperationItemProfile : Profile
 {
-    public UserProfile()
+    public OperationItemProfile()
     {
         CreateMaps();
     }
@@ -13,7 +11,8 @@ public class UserProfile : Profile
     {
         CreateMap<OperationItem, OperationItemsVM>()
             .ForMember(dist => dist.Date, opt => opt.MapFrom(src => src.Date.ToString("dd.MM.yyyy HH:mm")))
-            .ForMember(dist => dist.Color, opt => opt.MapFrom(src => src.Color == nameof(Green) ? Green : Red))
+            .ForMember(dist => dist.Color, opt => opt.MapFrom(src => src.IsIncome ? Green : Red))
+            .ForMember(dist => dist.Icon, opt => opt.MapFrom(src => src.IsIncome ? "profits.png" : "loss.png"))
             .ForMember(dist => dist.Amount, opt => opt.MapFrom(src => $"{src.Amount} ₺"));
     }
 }

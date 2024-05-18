@@ -90,7 +90,7 @@ public partial class AccountPageViewModel : BaseViewModel
         {
             if (UserModel.Email != accessUser.Item1 || UserModel.Password != accessUser.Item2)
             {
-                var auth = AuthCheckHelper.BasicAuth(UserModel.Email, UserModel.Password, accessUser.Item3.Value);
+                var auth = AuthCheckHelper.BasicAuth(UserModel.Email, UserModel.Password, accessUser.Item3.Value, UserModel.Id);
                 await SecureStorage.SetAsync("USERAUTH", auth);
             }
             User = new()

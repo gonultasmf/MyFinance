@@ -26,8 +26,9 @@ public partial class LoginPageViewModel(IUserRepo repo) : BaseViewModel
             if (Login.IsRememberMe)
             {
                 var expireTime = DateTime.Now.AddDays(30);
-                var auth = AuthCheckHelper.BasicAuth(result.Email, result.Password, expireTime);
+                var auth = AuthCheckHelper.BasicAuth(result.Email, result.Password, expireTime, result.Id);
                 await SecureStorage.SetAsync("USERAUTH", auth);
+                Preferences.Set(nameof(App.CurrentUserId), result.Id.ToString());
             }
 
             Login = new();

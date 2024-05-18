@@ -108,7 +108,7 @@ public partial class ChartPageViewModel : BaseViewModel
         var graphVals = (await _operationItemsRepo.GetAllAsync(
             expression: e => e.Date > DateTime.Now.AddDays(-days),
             ordered: e => e.Date.Date))
-            .Select(e => new OperationGraphVM { Date = e.Date.Date, Amount = e.Amount, IsIncome = e.Color == nameof(Green) })
+            .Select(e => new OperationGraphVM { Date = e.Date.Date, Amount = e.Amount, IsIncome = e.IsIncome })
             .ToList();
 
         var strokeThickness = 6;

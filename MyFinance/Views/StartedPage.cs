@@ -110,9 +110,12 @@ public partial class StartedPage : FmgLibContentPage
         if (info.Item3.Value.Date < DateTime.Now.Date)
         {
             SecureStorage.Remove("USERAUTH");
+            Preferences.Remove(nameof(App.CurrentUserId));
 
             return false;
         }
+
+        Preferences.Set(nameof(App.CurrentUserId), info.Item4.ToString());
 
         return true;
     }

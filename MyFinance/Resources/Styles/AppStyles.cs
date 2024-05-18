@@ -45,6 +45,16 @@ public class AppStyles
             .CursorColor(DeepSkyBlue)
             .LabelFontSize(14)),
 
+        // "DateEdit"
+
+        new Style<DateEdit>(e => e
+            .LabelColor(DeepSkyBlue)
+            .BorderColor(DeepSkyBlue)
+            .FocusedBorderColor(DeepSkyBlue)
+            .FocusedLabelColor(DeepSkyBlue)
+            .CursorColor(DeepSkyBlue)
+            .LabelFontSize(14)),
+
         // "ActivityIndicator"
 
         new Style<ActivityIndicator>(e => e

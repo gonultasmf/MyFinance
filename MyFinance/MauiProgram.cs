@@ -12,7 +12,7 @@ namespace MyFinance;
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
 [MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(CartesianChart), typeof(TabView), typeof(TabViewItem))]
 [MauiMarkup(typeof(TabItem), typeof(DXButtonBase), typeof(ShimmerView), typeof(DXCollectionViewBase), typeof(SwipeContainer))]
-[MauiMarkup(typeof(SwipeItem))]
+[MauiMarkup(typeof(SwipeItem), typeof(DateEdit))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -76,8 +76,7 @@ public static class MauiProgram
                 items.Add(
                     new OperationItem
                     {
-                        Icon = amount % 2 == 0 ? "loss.png" : "profits.png",
-                        Color = amount % 2 == 0 ? nameof(Red) : nameof(Green),
+                        IsIncome = amount % 2 != 0,
                         Date = DateTime.Now.AddDays(-(amount % 200)),
                         Title = amount % 2 == 0 ? "Borç ödendi" : "Ödeme Alındı",
                         Description = amount % 2 == 0 ? "Ödemeler yapıldı" : "Yaka parası alındı.",

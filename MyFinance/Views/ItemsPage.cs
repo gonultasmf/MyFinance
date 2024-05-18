@@ -16,7 +16,8 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
             .Margin(10)
             .Children(
                 new Grid()
-                .ColumnDefinitions(e => e.Star().Star())
+                .ColumnDefinitions(e => e.Star(8).Star(1).Star(1))
+                .Spacing(10)
                 .FillHorizontal()
                 .Children(
                     new Label()
@@ -26,10 +27,16 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     .AlignStart(),
 
                     new ImageButton()
+                    .Source("edit.png")
+                    .SizeRequest(40,40)
+                    .Command(e => e.Path("ShowItemPopupCommand"))
+                    .Column(1),
+
+                    new ImageButton()
                     .Source("filter.png")
                     .SizeRequest(40,40)
                     .Command(e => e.Path("ShowFilterPopupCommand"))
-                    .Column(1)
+                    .Column(2)
                     .AlignEnd()
                 ),
 
@@ -68,7 +75,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                                 new SwipeItem()
                                 .Caption("Düzenle")
                                 .BackgroundColor(Orange)
-                                .Image("home.png")
+                                .Image("edit.png")
                             }
                         )
                         .EndSwipeItems(
@@ -174,6 +181,123 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                         .FontAttributes(Bold)
                         .Command(e => e.Path("ApplyFilterCommand"))
                         .Row(2)
+                    )
+                ),
+
+                new DXPopup()
+                .IsOpen(e => e.Path("IsItemPopupShow"))
+                .AllowScrim(false)
+                .AnimationDuration(new TimeSpan(0, 0, 0, 1))
+                .VerticalAlignment(PopupVerticalAlignment.Center)
+                .HorizontalAlignment(PopupHorizontalAlignment.Center)
+                .BackgroundColor(LightGray)
+                .RowSpan(3)
+                .Content(
+                    new Frame()
+                    .HeightRequest(500)
+                    .BackgroundColor(Transparent)
+                    .BorderColor(Transparent)
+                    .Content(
+                        new VerticalStackLayout()
+                        .Spacing(10)
+                        //.Padding(new Thickness(25, 15))
+                        .Children(
+                            new TextEdit()
+                            .LabelText("Başlık")
+                            .Text(e => e.Path("OperationItem.Title")),
+
+                            new TextEdit()
+                            .LabelText("Açıklama")
+                            .Text(e => e.Path("OperationItem.Description")),
+
+                            new DateEdit()
+                            .LabelText("Tarih")
+                            .Date(e => e.Path("OperationItem.Date")),
+
+                            new TextEdit()
+                            .LabelText("Para Tutarı")
+                            .Keyboard(Numeric)
+                            .Text(e => e.Path("OperationItem.Amount")),
+
+                            new CheckEdit()
+                            .Label("Gelir")
+                            .AlignStart()
+                            .IsChecked(e => e.Path("OperationItem.IsIncome")),
+
+                            new Button()
+                            .Text("KAYDET")
+                            .BackgroundColor(DeepSkyBlue)
+                            .TextColor(Black)
+                            .FontSize(15)
+                            .Command(e => e.Path("SaveCommand")),
+
+                            new Button()
+                            .Text("İPTAL")
+                            .BackgroundColor(DarkGray)
+                            .TextColor(White)
+                            .FontSize(15)
+                            .Command(e => e.Path("CloseItemPopupCommand"))
+                        )
+                    )
+                ),
+
+                new DXPopup()
+                .IsOpen(e => e.Path("IsInfoPopupShow"))
+                .AllowScrim(false)
+                .AnimationDuration(new TimeSpan(0, 0, 0, 1))
+                .VerticalAlignment(PopupVerticalAlignment.Center)
+                .HorizontalAlignment(PopupHorizontalAlignment.Center)
+                .BackgroundColor(e => e.Path("InfoPopupColor"))
+                .RowSpan(3)
+                .Content(
+                    new Grid()
+                    .WidthRequest(250)
+                    .HeightRequest(150)
+                    .Padding(0)
+                    .Children(
+                        new Frame()
+                        .CornerRadius(25)
+                        .BackgroundColor(e => e.Path("InfoPopupColor"))
+                        .BorderColor(e => e.Path("InfoPopupColor"))
+                        .FillBothDirections()
+                        .Padding(0)
+                        .Content(
+                            new Grid()
+                            .RowDefinitions(e => e.Star(2).Star(7).Star(1))
+                            .FillBothDirections()
+                            .Margin(10)
+                            .Padding(10)
+                            .Children(
+                                new Label()
+                                .Text(e => e.Path("InfoPopupTitle"))
+                                .FontAttributes(Bold)
+                                .FontSize(18)
+                                .TextColor(Black)
+                                .Center()
+                                .Row(0),
+
+                                new Label()
+                                .Text(e => e.Path("InfoPopupDesc"))
+                                .FontAttributes(Italic)
+                                .LineBreakMode(WordWrap)
+                                .FontSize(12)
+                                .TextColor(Black)
+                                .Center()
+                                .Row(1),
+
+                                new Button()
+                                .Text("OK")
+                                .TextColor(Black)
+                                .FontAttributes(Bold)
+                                .FontSize(15)
+                                .Row(2)
+                                .HeightRequest(30)
+                                .BackgroundColor(DeepSkyBlue)
+                                .CenterHorizontal()
+                                .Padding(0)
+                                .Command(e => e.Path("ClosePopupCommand"))
+                            )
+                        )
                     )
                 )
             )

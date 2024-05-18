@@ -32,8 +32,8 @@ public partial class MainPageViewModel : BaseViewModel
 
         Items = mapper.Map<List<OperationItemsVM>>(operationItemsRepo.GetAllAsync(ordered:e => e.Date, limit:10).Result);
 
-        var inA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && e.Color == nameof(Green)).Result;
-        var outA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && e.Color == nameof(Red)).Result;
+        var inA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && e.IsIncome).Result;
+        var outA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && !e.IsIncome).Result;
         
         TotalExpense = $"{outA} ₺";
         TotalIncome = $"{inA} ₺";

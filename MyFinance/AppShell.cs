@@ -14,17 +14,22 @@ public partial class AppShell : Shell
             new ShellContent()
             .Title("")
             .ContentTemplate(() => new StartedPage())
-            .Route("StartedPage"),
+            .Route(nameof(StartedPage)),
 
             new ShellContent()
             .Title("")
             .ContentTemplate(() => serviceProvider.GetService<LoginPage>())
-            .Route("LoginPage"),
+            .Route(nameof(LoginPage)),
 
             new ShellContent()
             .Title("")
             .ContentTemplate(() => serviceProvider.GetService<RegisterPage>())
-            .Route("RegisterPage"),
+            .Route(nameof(RegisterPage)),
+
+            new ShellContent()
+            .Title("")
+            .ContentTemplate(() => serviceProvider.GetService<AddOrEditPage>())
+            .Route(nameof(AddOrEditPage)),
 
             new TabBar()
             .Items(

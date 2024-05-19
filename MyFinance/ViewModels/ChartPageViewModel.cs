@@ -107,7 +107,8 @@ public partial class ChartPageViewModel : BaseViewModel
     {
         var graphVals = (await _operationItemsRepo.GetAllAsync(
             expression: e => e.Date > DateTime.Now.AddDays(-days),
-            ordered: e => e.Date.Date))
+            ordered: e => e.Date.Date,
+            descOrder: true))
             .Select(e => new OperationGraphVM { Date = e.Date.Date, Amount = e.Amount, IsIncome = e.IsIncome })
             .ToList();
 

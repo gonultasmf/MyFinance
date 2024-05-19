@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DevExpress.Maui.Core.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using DXImage = DevExpress.Maui.Core.DXImage;
@@ -12,7 +13,9 @@ namespace MyFinance;
 [MauiMarkup(typeof(DXImage), typeof(DXButton), typeof(DXViewBase), typeof(DXBorder), typeof(DXContentPresenterBase))]
 [MauiMarkup(typeof(DXContentPresenter), typeof(DXCollectionView), typeof(CartesianChart), typeof(TabView), typeof(TabViewItem))]
 [MauiMarkup(typeof(TabItem), typeof(DXButtonBase), typeof(ShimmerView), typeof(DXCollectionViewBase), typeof(SwipeContainer))]
-[MauiMarkup(typeof(SwipeItem), typeof(DateEdit))]
+[MauiMarkup(typeof(SwipeItem), typeof(DateEdit), typeof(CalendarHeaderAppearance), typeof(CalendarDayCellAppearance), typeof(CalendarSelectableCellAppearance))]
+[MauiMarkup(typeof(DateEditActualAppearance), typeof(MultilineEdit), typeof(SimpleButton), typeof(DXStackLayout), typeof(DXLayoutBase))]
+[MauiMarkup(typeof(SwipeItemBase))]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -43,6 +46,7 @@ public static class MauiProgram
             .AddScopedWithShellRoute<AccountPage, AccountPageViewModel>($"//{nameof(AccountPage)}")
             .AddScopedWithShellRoute<LoginPage, LoginPageViewModel>($"//{nameof(LoginPage)}")
             .AddScopedWithShellRoute<RegisterPage, RegisterPageViewModel>($"//{nameof(RegisterPage)}")
+            .AddScopedWithShellRoute<AddOrEditPage, AddOrEditPageViewModel>($"//{nameof(AddOrEditPage)}")
             .AddScoped<StartedPage>()
             .AddScoped<IUserRepo, UserRepo>()
             .AddScoped<IOperationItemsRepo, OperationItemsRepo>();

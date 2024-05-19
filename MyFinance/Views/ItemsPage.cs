@@ -17,7 +17,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
             .Children(
                 new Grid()
                 .ColumnDefinitions(e => e.Star(8).Star(1).Star(1))
-                .Spacing(10)
+                .Spacing(20)
                 .FillHorizontal()
                 .Children(
                     new Label()
@@ -27,14 +27,14 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     .AlignStart(),
 
                     new ImageButton()
-                    .Source("edit.png")
-                    .SizeRequest(40,40)
-                    .Command(e => e.Path("ShowItemPopupCommand"))
+                    .Source("wallet.png")
+                    .SizeRequest(40, 40)
+                    .Command(e => e.Path("ShowItemCommand"))
                     .Column(1),
 
                     new ImageButton()
                     .Source("filter.png")
-                    .SizeRequest(40,40)
+                    .SizeRequest(40, 40)
                     .Command(e => e.Path("ShowFilterPopupCommand"))
                     .Column(2)
                     .AlignEnd()
@@ -48,90 +48,110 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                 .Row(1)
                 .LoadingView(
                     new DXCollectionView()
-                    .ItemsSource(e => e.Path("LoadingItems"))
-                    .IsScrollBarVisible(false)
-                    .ItemTemplate(() =>
-                        new Border()
-                        .Margin(5, 5)
-                        .BackgroundColor(LightGray)
-                        .StrokeShape(new RoundRectangle().CornerRadius(25))
-                        .HeightRequest(60)
-                        .StrokeThickness(0)
-                    )
+                        .ItemsSource(e => e.Path("LoadingItems"))
+                        .IsScrollBarVisible(false)
+                        .ItemTemplate(() =>
+                            new Border()
+                            .Margin(5, 5)
+                            .BackgroundColor(LightGray)
+                            .StrokeShape(new RoundRectangle().CornerRadius(25))
+                            .HeightRequest(60)
+                            .StrokeThickness(0)
+                        )
                 )
                 .Content(
                     new DXCollectionView()
-                    .ItemsSource(e => e.Path("Items"))
-                    .IsRefreshing(e => e.Path("IsRefreshing").BindingMode(TwoWay))
-                    .IsLoadMoreEnabled(e => e.Path("IsLoadMoreEnabled"))
-                    .LoadMoreCommand(e => e.Path("LoadMoreCommand"))
-                    .IndicatorColor(DeepSkyBlue)
-                    .ItemTemplate(() =>
-                        new SwipeContainer()
-                        .FullSwipeMode(FullSwipeMode.Both)
-                        .StartSwipeItems(
-                            new SwipeItemCollection()
-                            {
+                        .Assign(out var collectionView)
+                        .ItemsSource(e => e.Path("Items"))
+                        .IsRefreshing(e => e.Path("IsRefreshing").BindingMode(TwoWay))
+                        .IsLoadMoreEnabled(e => e.Path("IsLoadMoreEnabled"))
+                        .LoadMoreCommand(e => e.Path("LoadMoreCommand"))
+                        .IndicatorColor(DeepSkyBlue)
+                        .ItemTemplate(() =>
+                            new SwipeContainer()
+                            .StartSwipeItems(
                                 new SwipeItem()
+                                {
+                                    BackgroundColor = Orange
+                                }
                                 .Caption("Düzenle")
-                                .BackgroundColor(Orange)
-                                .Image("edit.png")
-                            }
-                        )
-                        .EndSwipeItems(
-                            new SwipeItemCollection()
-                            {
-                                new SwipeItem()
-                                .Caption("Sil")
-                                .BackgroundColor(Red)
-                                .Image("home.png")
-                            }
-                        )
-                        .ItemView(
-                            new Grid()
-                            .RowDefinitions(e => e.Star().Star())
-                            .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
-                            .Spacing(5)
-                            .Margin(5)
-                            .Children(
-                                new DXImage()
-                                .Source(e => e.Path("Icon"))
-                                .SizeRequest(30, 30)
-                                .RowSpan(2),
-
-                                new Label()
                                 .FontAttributes(Bold)
-                                .TextColor(Black)
-                                .Text(e => e.Path("Title"))
-                                .AlignBottom()
-                                .Column(1),
+                                .OnTap(async (sender, e) =>
+                                {
+                                    AddOrEditPageViewModel.Id = ((OperationItemsVM)e.Item).Id;
+                                    await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
+                                    //BindingContext.ApplyFilterCommand.Execute(null);
+                                })
+                                //.CommandParameter(e => e.Path(nameof(DXCollectionView.SelectedItem)).Source(collectionView))
+                            //.FontColor(Orange)
+                            //.Image("edit.png")
+                            )
+                            .EndSwipeItems(
+                                new SwipeItem()
+                                {
+                                    BackgroundColor = Red
+                                }
+                                .Caption("Sil")
+                                .FontAttributes(Bold)
+                                .OnTap((sender, e) =>
+                                {
+                                    BindingContext.DeleteId = ((OperationItemsVM)e.Item).Id;
+                                    BindingContext.IsDeletePopupShow = true;
+                                })
+                                //.Image("home.png")
+                            )
+                            .ItemView(
+                                new DXStackLayout()
+                                .Children_ContentProp(
+                                    new Grid()
+                                    .RowDefinitions(e => e.Star().Star())
+                                    .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
+                                    .Spacing(5)
+                                    .Margin(5)
+                                    .Children(
+                                        new DXImage()
+                                        .Source(e => e.Path("Icon"))
+                                        .SizeRequest(30, 30)
+                                        .RowSpan(2),
 
-                                new Label()
-                                .TextColor(DarkGray)
-                                .Text(e => e.Path("Description"))
-                                .FontSize(12)
-                                .FontAttributes(Italic)
-                                .AlignTop()
-                                .Column(1)
-                                .Row(1),
+                                        new Label()
+                                        .FontAttributes(Bold)
+                                        .TextColor(Black)
+                                        .Text(e => e.Path("Title"))
+                                        .AlignBottom()
+                                        .Column(1),
 
-                                new Label()
-                                .Text(e => e.Path("Date"))
-                                .TextColor(DarkGray)
-                                .FontSize(10)
-                                .Column(2)
-                                .AlignBottomEnd(),
+                                        new Label()
+                                        .TextColor(DarkGray)
+                                        .Text(e => e.Path("Description"))
+                                        .FontSize(12)
+                                        .FontAttributes(Italic)
+                                        .AlignTop()
+                                        .Column(1)
+                                        .Row(1),
 
-                                new Label()
-                                .Text(e => e.Path("Amount"))
-                                .TextColor(e => e.Path("Color"))
-                                .FontSize(12)
-                                .Column(2)
-                                .Row(1)
-                                .AlignTopEnd()
+                                        new Label()
+                                        .Text(e => e.Path("Date"))
+                                        .TextColor(DarkGray)
+                                        .FontSize(10)
+                                        .Column(2)
+                                        .AlignBottomEnd(),
+
+                                        new Label()
+                                        .Text(e => e.Path("Amount"))
+                                        .TextColor(e => e.Path("Color"))
+                                        .FontSize(12)
+                                        .Column(2)
+                                        .Row(1)
+                                        .AlignTopEnd()
+                                    ),
+
+                                    new BoxView()
+                                    .Color(LightGray)
+                                    .HeightRequest(1)
+                                )
                             )
                         )
-                    )
                 ),
 
                 new DXPopup()
@@ -185,58 +205,46 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                 ),
 
                 new DXPopup()
-                .IsOpen(e => e.Path("IsItemPopupShow"))
-                .AllowScrim(false)
+                .IsOpen(e => e.Path("IsDeletePopupShow"))
+                .RowSpan(2)
                 .AnimationDuration(new TimeSpan(0, 0, 0, 1))
                 .VerticalAlignment(PopupVerticalAlignment.Center)
                 .HorizontalAlignment(PopupHorizontalAlignment.Center)
-                .BackgroundColor(LightGray)
-                .RowSpan(3)
+                .AllowShadow(true)
+                .AllowScrim(false)
+                .ShadowHorizontalOffset(20)
+                .ShadowVerticalOffset(20)
+                .CornerRadius(20)
+                .ShadowRadius(20)
+                .ShadowColor(Gray)
                 .Content(
-                    new Frame()
-                    .HeightRequest(500)
-                    .BackgroundColor(Transparent)
-                    .BorderColor(Transparent)
-                    .Content(
-                        new VerticalStackLayout()
+                    new Grid()
+                    .WidthRequest(250)
+                    .HeightRequest(130)
+                    .Padding(15)
+                    .Margin(10)
+                    .RowDefinitions(e => e.Absolute(50).Absolute(50))
+                    .RowSpacing(5)
+                    .Children(
+                        new Label().Text("Silmek istediğinizden emin misiniz?"),
+
+                        new HorizontalStackLayout()
                         .Spacing(10)
-                        //.Padding(new Thickness(25, 15))
+                        .Row(1)
+                        .AlignBottomEnd()
                         .Children(
-                            new TextEdit()
-                            .LabelText("Başlık")
-                            .Text(e => e.Path("OperationItem.Title")),
-
-                            new TextEdit()
-                            .LabelText("Açıklama")
-                            .Text(e => e.Path("OperationItem.Description")),
-
-                            new DateEdit()
-                            .LabelText("Tarih")
-                            .Date(e => e.Path("OperationItem.Date")),
-
-                            new TextEdit()
-                            .LabelText("Para Tutarı")
-                            .Keyboard(Numeric)
-                            .Text(e => e.Path("OperationItem.Amount")),
-
-                            new CheckEdit()
-                            .Label("Gelir")
-                            .AlignStart()
-                            .IsChecked(e => e.Path("OperationItem.IsIncome")),
-
                             new Button()
-                            .Text("KAYDET")
+                            .Text("Hayır")
+                            .FontAttributes(Bold)
                             .BackgroundColor(DeepSkyBlue)
-                            .TextColor(Black)
-                            .FontSize(15)
-                            .Command(e => e.Path("SaveCommand")),
+                            .Command(e => e.Path("CancelCommand")),
 
                             new Button()
-                            .Text("İPTAL")
-                            .BackgroundColor(DarkGray)
-                            .TextColor(White)
-                            .FontSize(15)
-                            .Command(e => e.Path("CloseItemPopupCommand"))
+                            .Text("Evet")
+                            .FontAttributes(Bold)
+                            .BackgroundColor(Red)
+                            .Command(e => e.Path("YesCommand"))
+                            .Row(2)
                         )
                     )
                 ),

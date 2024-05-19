@@ -30,7 +30,7 @@ public partial class MainPageViewModel : BaseViewModel
             Email = currentUser?.Email ?? string.Empty
         };
 
-        Items = mapper.Map<List<OperationItemsVM>>(operationItemsRepo.GetAllAsync(ordered:e => e.Date, limit:10).Result);
+        Items = mapper.Map<List<OperationItemsVM>>(operationItemsRepo.GetAllAsync(ordered:e => e.Date, limit:10, descOrder: true).Result);
 
         var inA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && e.IsIncome).Result;
         var outA = operationItemsRepo.GetSumAsync(sumProp: e => e.Amount, expression: e => e.Date >= DateTime.Now.AddMonths(-1) && !e.IsIncome).Result;

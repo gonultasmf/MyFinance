@@ -30,22 +30,10 @@ public partial class ItemsPageViewModel : BaseViewModel
     private bool isShowPopup = false;
 
     [ObservableProperty]
-    private bool isItemPopupShow = false;
+    private bool isDeletePopupShow = false;
 
     [ObservableProperty]
-    private OperationItem operationItem = new();
-
-    [ObservableProperty]
-    private bool isInfoPopupShow = false;
-
-    [ObservableProperty]
-    private Color infoPopupColor = SkyBlue;
-
-    [ObservableProperty]
-    private string infoPopupTitle = "BİLGİ";
-
-    [ObservableProperty]
-    private string infoPopupDesc = "İşlem başarılı olmuştur.";
+    private Guid deleteId;
 
     private int index = 15;
 
@@ -55,7 +43,6 @@ public partial class ItemsPageViewModel : BaseViewModel
         _mapper = mapper;
 
         Items = GetItems(GetDate()).Result;
-        OperationItem.Date = DateTime.Now;
     }
 
 
@@ -65,7 +52,8 @@ public partial class ItemsPageViewModel : BaseViewModel
             expression: e => e.Date >= date && (OperationType == 0 ? true : OperationType == 1 ? e.IsIncome : !e.IsIncome),
             ordered: e => e.Date,
             skip: index,
-            limit: 15);
+            limit: 15,
+            descOrder: true);
         index += 15;
 
         if (tempList.Count == 0)
@@ -119,51 +107,36 @@ public partial class ItemsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void ShowItemPopup()
+    public async void ShowItem()
     {
-        IsItemPopupShow = true;
+        await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
+        await GetItems(GetDate());
     }
 
     [RelayCommand]
-    public void CloseItemPopup()
+    public async void GotoEditPage(object parameter)
     {
-        IsItemPopupShow = false;
-        OperationItem = new();
+        //AddOrEditPageViewModel.Id = true;
+        await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
+        await GetItems(GetDate());
     }
 
     [RelayCommand]
-    public async Task Save()
+    public void Cancel()
     {
-        var currentUser = Preferences.Get(nameof(App.CurrentUserId), string.Empty);
-        OperationItem.IsActive = true;
-        OperationItem.CreatedBy = !string.IsNullOrEmpty(currentUser) ? Guid.Parse(currentUser) : Guid.Empty;
-        OperationItem.UpdatedBy = !string.IsNullOrEmpty(currentUser) ? Guid.Parse(currentUser) : Guid.Empty;
-        
-        var result = await _operationItemsRepo.InsertAsync(OperationItem);
-        if (result)
-        {
-            InfoPopupColor = SkyBlue;
-            InfoPopupTitle = "BİLGİ";
-            infoPopupDesc = "İşlem başarılı olmuştur.";
-        }
-        else
-        {
-            InfoPopupColor = DarkOrange;
-            InfoPopupTitle = "HATA";
-            infoPopupDesc = "İşlem sırasında beklenmeyen bir hata oluştu.";
-        }
-        IsInfoPopupShow = true;
+        DeleteId = Guid.Empty;
+        IsDeletePopupShow = false;
     }
 
     [RelayCommand]
-    public void ClosePopup()
+    public async Task Yes()
     {
-        if (InfoPopupTitle == "BİLGİ")
-        {
-            IsInfoPopupShow = false;
-            IsItemPopupShow = false;
-        }
-        else
-            IsInfoPopupShow = false;
+        var result = await _operationItemsRepo.RemoveAsync(DeleteId);
+        IsLoadingItems = true;
+        await GetItems(GetDate());
+        IsDeletePopupShow = false;
+        await Task.Delay(1500);
+
+        IsLoadingItems = false;
     }
 }

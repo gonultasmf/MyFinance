@@ -17,6 +17,16 @@ public class AppStyles
             .CursorColor(DeepSkyBlue)
             .LabelFontSize(14)),
 
+        // "MultilineEdit"
+
+        new Style<MultilineEdit>(e => e
+            .LabelColor(DeepSkyBlue)
+            .BorderColor(DeepSkyBlue)
+            .FocusedBorderColor(DeepSkyBlue)
+            .FocusedLabelColor(DeepSkyBlue)
+            .CursorColor(DeepSkyBlue)
+            .LabelFontSize(14)),
+
         // "PasswordEdit"
 
         new Style<PasswordEdit>(e => e
@@ -53,7 +63,24 @@ public class AppStyles
             .FocusedBorderColor(DeepSkyBlue)
             .FocusedLabelColor(DeepSkyBlue)
             .CursorColor(DeepSkyBlue)
-            .LabelFontSize(14)),
+            .LabelFontSize(14)
+            .PickerHeaderAppearance(
+                new CalendarHeaderAppearance()
+                .BackgroundColor(DeepSkyBlue)
+            )
+            .PickerDayCellAppearance(
+                new CalendarDayCellAppearance()
+                .SelectedEllipseBackgroundColor(DeepSkyBlue)
+                .TodayEllipseBackgroundColor(SkyBlue)
+            )
+            .PickerYearCellAppearance(
+                new CalendarYearCellAppearance()
+                .SelectedEllipseBackgroundColor(DeepSkyBlue)
+            )
+            .PickerMonthCellAppearance(
+                new CalendarMonthCellAppearance()
+                .SelectedEllipseBackgroundColor(DeepSkyBlue)
+            )),
 
         // "ActivityIndicator"
 

@@ -15,7 +15,7 @@ public class Repo<TModel> : IRepo<TModel> where TModel : BaseModel
 
     public DbSet<TModel> Table => _context.Set<TModel>();
 
-    public async Task<List<TModel>> GetAllAsync(Expression<Func<TModel, bool>> expression = null, Expression<Func<TModel, object>> include = null, Expression<Func<TModel, object>> ordered = null, int? skip = null, int? limit = null)
+    public async Task<List<TModel>> GetAllAsync(Expression<Func<TModel, bool>> expression = null, Expression<Func<TModel, object>> include = null, Expression<Func<TModel, object>> ordered = null, int? skip = null, int? limit = null, bool descOrder = false)
     {
         var query = Table.AsNoTracking();
 
@@ -26,7 +26,7 @@ public class Repo<TModel> : IRepo<TModel> where TModel : BaseModel
             query = query.Include(include);
 
         if (ordered != null)
-            query = query.OrderBy(ordered);
+            query = descOrder ? query.OrderByDescending(ordered) : query.OrderBy(ordered);
 
         if (skip.HasValue)
             query = query.Skip(skip.Value);
@@ -96,12 +96,12 @@ public class Repo<TModel> : IRepo<TModel> where TModel : BaseModel
         try
         {
             var model = await Table.FirstOrDefaultAsync(x => x.Id == id);
-            Table.Remove(model);
+            var result = Table.Remove(model);
             await SaveAsync();
 
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             return false;
         }

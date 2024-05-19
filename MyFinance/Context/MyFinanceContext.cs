@@ -24,6 +24,7 @@ public class MyFinanceContext : DbContext
             {
                 EntityState.Added => data.Entity.CreateDate = DateTime.Now,
                 EntityState.Modified => data.Entity.UpdateDate = DateTime.Now,
+                _ => data.Entity.UpdateDate = DateTime.Now
             };
         }
         return base.SaveChangesAsync(cancellationToken);

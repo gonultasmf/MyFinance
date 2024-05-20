@@ -2,7 +2,7 @@
 
 public partial class GeneralPopup : DXPopup
 {
-    public GeneralPopup(string title, string desc, string okBtnTxt = "OK", PopupType pType = PopupType.Info, bool allowScrim = false)
+    public GeneralPopup(string title, string desc, string okBtnTxt = "OK", PopupType pType = PopupType.Info, bool allowScrim = false, string okBtnCommand = "OkBtnPopupCommand")
     {
         var color = pType == PopupType.Info ? SkyBlue : pType == PopupType.Warning ? DarkOrange : Red;
 
@@ -58,6 +58,7 @@ public partial class GeneralPopup : DXPopup
                         .BackgroundColor(DeepSkyBlue)
                         .CenterHorizontal()
                         .Padding(0)
+                        .Command(e => e.Path(okBtnCommand))
                         .OnClicked((sender, e) =>
                         {
                             IsOpen = false;

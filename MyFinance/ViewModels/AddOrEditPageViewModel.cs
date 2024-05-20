@@ -17,6 +17,7 @@ public partial class AddOrEditPageViewModel : BaseViewModel
     public AddOrEditPageViewModel(IOperationItemsRepo operationItemsRepo)
     {
         _operationItemsRepo = operationItemsRepo;
+        OperationItem.Date = (OperationItem.Id == Guid.Empty ? DateTime.Now : OperationItem.Date);
     }
 
     [RelayCommand]
@@ -43,7 +44,6 @@ public partial class AddOrEditPageViewModel : BaseViewModel
         if (result)
         {
             IsInfoPopupShow = true;
-            await AppShell.Current.GoToAsync($"//{nameof(ItemsPage)}");
         }
         else
         {
@@ -55,6 +55,8 @@ public partial class AddOrEditPageViewModel : BaseViewModel
     public async Task Cancel()
     {
         await AppShell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+
+        OperationItem = new();
     }
 
     [RelayCommand]
@@ -65,6 +67,6 @@ public partial class AddOrEditPageViewModel : BaseViewModel
             OperationItem = await _operationItemsRepo.GetSingleAsync(e => e.Id == Id);
         }
         else
-            OperationItem.Date = OperationItem.Id == Guid.Empty ? DateTime.Now : OperationItem.Date;
+            OperationItem.Date = (OperationItem.Id == Guid.Empty ? DateTime.Now : OperationItem.Date);
     }
 }

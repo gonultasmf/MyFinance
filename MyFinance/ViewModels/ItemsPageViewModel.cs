@@ -35,7 +35,7 @@ public partial class ItemsPageViewModel : BaseViewModel
     [ObservableProperty]
     private Guid deleteId;
 
-    private int index = 15;
+    private int index = 0;
 
     public ItemsPageViewModel(IOperationItemsRepo operationItemsRepo, IMapper mapper)
     {
@@ -107,18 +107,9 @@ public partial class ItemsPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async void ShowItem()
+    public async void GotoAddPage(object parameter)
     {
         await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
-        await GetItems(GetDate());
-    }
-
-    [RelayCommand]
-    public async void GotoEditPage(object parameter)
-    {
-        //AddOrEditPageViewModel.Id = true;
-        await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
-        await GetItems(GetDate());
     }
 
     [RelayCommand]
@@ -133,7 +124,7 @@ public partial class ItemsPageViewModel : BaseViewModel
     {
         var result = await _operationItemsRepo.RemoveAsync(DeleteId);
         IsLoadingItems = true;
-        await GetItems(GetDate());
+        Items = await GetItems(GetDate());
         IsDeletePopupShow = false;
         await Task.Delay(1500);
 

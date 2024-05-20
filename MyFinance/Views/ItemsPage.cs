@@ -29,7 +29,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     new ImageButton()
                     .Source("wallet.png")
                     .SizeRequest(40, 40)
-                    .Command(e => e.Path("ShowItemCommand"))
+                    .Command(e => e.Path("GotoAddPageCommand"))
                     .Column(1),
 
                     new ImageButton()
@@ -80,11 +80,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                                 {
                                     AddOrEditPageViewModel.Id = ((OperationItemsVM)e.Item).Id;
                                     await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
-                                    //BindingContext.ApplyFilterCommand.Execute(null);
                                 })
-                                //.CommandParameter(e => e.Path(nameof(DXCollectionView.SelectedItem)).Source(collectionView))
-                            //.FontColor(Orange)
-                            //.Image("edit.png")
                             )
                             .EndSwipeItems(
                                 new SwipeItem()
@@ -98,7 +94,6 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                                     BindingContext.DeleteId = ((OperationItemsVM)e.Item).Id;
                                     BindingContext.IsDeletePopupShow = true;
                                 })
-                                //.Image("home.png")
                             )
                             .ItemView(
                                 new DXStackLayout()
@@ -310,5 +305,12 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                 )
             )
         );
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        BindingContext.ApplyFilterCommand.Execute(null);
     }
 }

@@ -27,6 +27,7 @@ public partial class AddOrEditPage(AddOrEditPageViewModel viewModel) : FmgLibCon
                 new DateEdit()
                 .Assign(out var dateEdit)
                 .LabelText("Tarih")
+                .Date(e => e.Path("OperationItem.Date"))
                 .PickerButtonAreaTemplate(() => 
                     new HorizontalStackLayout()
                     .Margin(10)
@@ -47,8 +48,7 @@ public partial class AddOrEditPage(AddOrEditPageViewModel viewModel) : FmgLibCon
                         .Text("OK")
                         .Command(e => e.Path("ConfirmCommand"))
                     )
-                )
-                .Date(e => e.Path("OperationItem.Date")),
+                ),
 
                 new TextEdit()
                 .LabelText("Para Tutarı")
@@ -74,7 +74,7 @@ public partial class AddOrEditPage(AddOrEditPageViewModel viewModel) : FmgLibCon
                 .FontSize(15)
                 .Command(e => e.Path("CancelCommand")),
 
-                new GeneralPopup("BİLGİ", "İşlem başarılı oldu. ", "OK", PopupType.Info)
+                new GeneralPopup("BİLGİ", "İşlem başarılı oldu. ", "OK", PopupType.Info, okBtnCommand: "CancelCommand")
                 .RowSpan(4)
                 .IsOpen(e => e.Path("IsInfoPopupShow")),
 

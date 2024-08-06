@@ -24,7 +24,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     .Text("İŞLEMLER")
                     .FontAttributes(Bold)
                     .FontSize(34)
-                    .AlignStart(),
+                    .AlignLeft(),
 
                     new ImageButton()
                     .Source("wallet.png")
@@ -37,7 +37,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                     .SizeRequest(40, 40)
                     .Command(e => e.Path("ShowFilterPopupCommand"))
                     .Column(2)
-                    .AlignEnd()
+                    .AlignRight()
                 ),
 
                 new ShimmerView()
@@ -130,7 +130,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                                         .TextColor(DarkGray)
                                         .FontSize(10)
                                         .Column(2)
-                                        .AlignBottomEnd(),
+                                        .AlignBottomRight(),
 
                                         new Label()
                                         .Text(e => e.Path("Amount"))
@@ -138,7 +138,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                                         .FontSize(12)
                                         .Column(2)
                                         .Row(1)
-                                        .AlignTopEnd()
+                                        .AlignTopRight()
                                     ),
 
                                     new BoxView()
@@ -226,7 +226,7 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                         new HorizontalStackLayout()
                         .Spacing(10)
                         .Row(1)
-                        .AlignBottomEnd()
+                        .AlignBottomRight()
                         .Children(
                             new Button()
                             .Text("Hayır")

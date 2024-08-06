@@ -14,7 +14,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
             .Margin(20,20,20,10)
             .Children(
                 new HorizontalStackLayout()
-                .AlignStart()
+                .AlignLeft()
                 .Spacing(5)
                 .Children(
                     new DXImage()
@@ -60,7 +60,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
                         .TextColor(Green)
                         .FontSize(12)
                         .Column(1)
-                        .AlignBottomEnd(),
+                        .AlignBottomRight(),
 
                         new Label()
                         .Text(e => e.Path("TotalExpense"))
@@ -68,7 +68,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
                         .FontSize(12)
                         .Column(1)
                         .Row(1)
-                        .AlignTopEnd()
+                        .AlignTopRight()
                     )
                 ),
 
@@ -122,7 +122,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
                         .FontAttributes(Bold)
                         .TextColor(Black)
                         .Text("Son 10 İşlem ")
-                        .AlignEnd(),
+                        .AlignRight(),
 
                         new Border()
                         .StrokeThickness(1)
@@ -164,7 +164,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
                                 .TextColor(DarkGray)
                                 .FontSize(10)
                                 .Column(2)
-                                .AlignBottomEnd(),
+                                .AlignBottomRight(),
 
                                 new Label()
                                 .Text(e => e.Path("Amount"))
@@ -172,7 +172,7 @@ public partial class MainPage(MainPageViewModel viewModel) : FmgLibContentPage<M
                                 .FontSize(12)
                                 .Column(2)
                                 .Row(1)
-                                .AlignTopEnd()
+                                .AlignTopRight()
                             )
                         )
                     )

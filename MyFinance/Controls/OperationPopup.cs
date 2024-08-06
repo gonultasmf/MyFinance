@@ -79,7 +79,7 @@ public partial class OperationPopup : DXPopup
                             .WidthRequest(100)
                             .HeightRequest(25)
                             .BackgroundColor(DeepSkyBlue)
-                            .AlignEnd()
+                            .AlignRight()
                             .Padding(0)
                             .HeightRequest(27)
                             .OnClicked((sender, e) =>

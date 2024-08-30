@@ -70,34 +70,41 @@ public partial class ItemsPage(ItemsPageViewModel viewModel) : FmgLibContentPage
                         .ItemTemplate(() =>
                             new SwipeContainer()
                             .StartSwipeItems(
-                                new SwipeItem()
+                                new SwipeItemCollection
                                 {
-                                    BackgroundColor = Orange
+                                    new SwipeItem()
+                                    {
+                                        BackgroundColor = Orange
+                                    }
+                                    .Caption("Düzenle")
+                                    .FontAttributes(Bold)
+                                    .OnTap(async (sender, e) =>
+                                    {
+                                        AddOrEditPageViewModel.Id = ((OperationItemsVM)e.Item).Id;
+                                        await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
+                                    })
                                 }
-                                .Caption("Düzenle")
-                                .FontAttributes(Bold)
-                                .OnTap(async (sender, e) =>
-                                {
-                                    AddOrEditPageViewModel.Id = ((OperationItemsVM)e.Item).Id;
-                                    await AppShell.Current.GoToAsync($"//{nameof(AddOrEditPage)}");
-                                })
+                                
                             )
                             .EndSwipeItems(
-                                new SwipeItem()
+                                new SwipeItemCollection
                                 {
-                                    BackgroundColor = Red
+                                    new SwipeItem()
+                                    {
+                                        BackgroundColor = Red
+                                    }
+                                    .Caption("Sil")
+                                    .FontAttributes(Bold)
+                                    .OnTap((sender, e) =>
+                                    {
+                                        BindingContext.DeleteId = ((OperationItemsVM)e.Item).Id;
+                                        BindingContext.IsDeletePopupShow = true;
+                                    })
                                 }
-                                .Caption("Sil")
-                                .FontAttributes(Bold)
-                                .OnTap((sender, e) =>
-                                {
-                                    BindingContext.DeleteId = ((OperationItemsVM)e.Item).Id;
-                                    BindingContext.IsDeletePopupShow = true;
-                                })
                             )
                             .ItemView(
                                 new DXStackLayout()
-                                .Children_ContentProp(
+                                .Children(
                                     new Grid()
                                     .RowDefinitions(e => e.Star().Star())
                                     .ColumnDefinitions(e => e.Star(1).Star(6).Star(3))
